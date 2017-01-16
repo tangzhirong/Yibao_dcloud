@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_address.css">
+		<style>
+		body{
+			margin:0;
+			padding:0;
+		}
+		.fa-angle-right{
+			display:none;
+		}
+		</style>
+	</head>
+
+	<body>
+  		<div id="page_address"></div>
+	</body>
+	<script src="../js/mui.js"></script> 
+	<script src="../bower_components/react/react.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/Address.js"></script>
+	<script type="text/javascript" src="../build/js/service.js"></script>
+	<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ecc765135a01a685fcb90d60d52b1529"></script>
+	<script>
+	function setProvince(province){
+		console.log('province');
+		plus.webview.getWebviewById('city_contain').show("pop-in");
+		plus.webview.getWebviewById('city').show("pop-in");
+		ReactDOM.render(
+	  		React.createElement(City,{province : province,HandleClick : setAddress}),
+	  		document.getElementById('page_address')
+	  	);
+	}
+	function setAddress(city){
+		if(city.length > 3)
+			city = city.substr(0,3);
+		 var all_webview = plus.webview.all();
+		 for(var j = 0; j < all_webview.length; j++){
+		   if (all_webview[j].id == "city_contain" || all_webview.id == "city")
+		   		all_webview[j].close();//我也不知道从哪产生如此多的界面，于是一起关掉了
+	   }
+		var basic_info = plus.webview.getWebviewById('basic_info');
+		var editInfo = plus.webview.getWebviewById('page_editInfo.html');
+		if(editInfo){
+			editInfo.evalJS("updateUser('"+city+"')");
+		}
+		else if(basic_info){
+			basic_info.evalJS("saveAddress('"+city+"')");
+		}
+		plus.webview.getWebviewById('address_contain').close();
+	}
+	function backPage(){
+		plus.webview.getWebviewById('city_contain').hide();
+	}
+	</script>
+</html>

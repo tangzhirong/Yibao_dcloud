@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>disTeacher</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_discovery.css" />
+	</head>
+	<body>
+	 	<div id="tab1">
+	 		<div id="page-tab1sidebar-content"></div>
+		  	<div id="page-teacher-content">
+		  		<div className="sidebar">
+					<ul></ul>
+				</div>
+		  	</div>
+	 	</div>
+	</body>
+	<script src="../js/mui.min.js"></script> 
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Discovery组件的 js -->
+	<script type="text/javascript" src="../build/js/DiscoveryTeacher.js"></script>
+	<script type="text/javascript" src="../build/js/service.js"></script>
+	<script>
+	var catelistObj,teacherlistObj;	
+	//估算大致的加载时间,去除splash
+
+	mui.plusReady(function() {
+		plusReady(commonFunction);
+	});
+
+	/* 如果运行在非H5+的环境下 */
+	if(navigator.userAgent.indexOf("Html5Plus")<0){
+		commonFunction();
+	}
+
+	function plusReady(cb){
+		var parentWebview = plus.webview.getWebviewById('main');
+		document.addEventListener('swipeleft', function(e) {
+			if(e.detail.deltaX < -60)
+				parentWebview.evalJS('switchTab("page_feeds.html", "slide-in-right")');
+		});
+		document.addEventListener('swiperight', function(e) {
+			if(e.detail.deltaX > 60)
+				parentWebview.evalJS('switchTab("page_news.html", "slide-in-left")');
+		});
+		cb();
+	}
+	
+	var cateClickHandler;
+	var baseUrl = localStorage.getItem('baseUrl');
+
+	/* 刚进入时先初始化下一个界面的 Next webview */
+	cateClickHandler = function(cateid) {
+		//ajax
+		mui.ajax({
+			type : "post",
+			url : baseUrl + "/itemsByCategory",
+			data : {
+				cateid : cateid,
+				type : 'user'
+			},
+			Success : function(data){
+				teacherlistObj.setState({list : data.userlist});
+			}.bind(this)
+		});
+	};
+	
+	function commonFunction(){
+		catelistObj = ReactDOM.render(
+	  		React.createElement(CateList, {cateName : "老师"}),
+	  		document.getElementById('page-tab1sidebar-content')
+	  	);
+	  	teacherlistObj = ReactDOM.render(
+	  		React.createElement(List, {}),
+	  		document.getElementById('page-teacher-content')
+	  	);
+	};
+
+	
+	</script>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<style>
+			body{
+				margin:0;
+				padding:0;
+				height:100%;
+				width:100%;
+				background:rgb(236,236,236);
+			}
+			.title
+				{
+					position:relative;
+					text-align: center;
+					height:38px;
+					z-index: 999;
+					background:rgb(247,247,247);
+					-webkit-box-shadow:0 1px 2px #c7c7c7;  
+				    box-shadow:0 1px 2px #c7c7c7;
+				    font-family: "微软雅黑";
+				}
+				.title_back
+				{
+					position:relative;
+					display: inline-block;
+					float:left;
+					height:38px;
+					width: 38px;
+					color:rgb(129,129,129);
+				}
+			
+				.title_back i
+				{
+					position:relative;
+					float: left;
+					margin-left:12px;
+					line-height: 38px;
+					font-size: 26px;
+				}
+				.title_back:active
+				{
+					background:rgb(236,236,236);
+					color:rgb(255,177,57);
+				}
+				.title_name
+				{
+					position:relative;
+					height:38px;
+					left:16px;
+					line-height: 38px;
+					font-size: 18px;
+					color:rgb(55,55,55);
+				}
+				.next
+				{
+					position: relative;
+					display: inline-block;
+					float: right;
+					width: auto;
+					padding-right: 8px;
+					padding-left: 8px;
+					line-height: 38px;
+					font-size: 18px;
+					color:rgb(71,176,199);
+				}
+				.next:active
+				{
+					background:rgb(236,236,236);
+				}
+			.column{
+				position: relative;
+				float:left;
+				width:100%;
+				background:white;
+				-webkit-box-shadow:0 1px 2px #c7c7c7; 
+   				box-shadow:0 1px 2px #c7c7c7; 
+			}
+			input{
+				position: relative;
+				display:inline-block;
+				outline: none;
+				float:right;
+				border:none;
+				width:90%;
+				height:40px;
+				color: rgb(55,55,55);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="page_title">
+  			<div class="title">
+			<div class="title_back" onClick="backPage()">
+				<i class="fa fa-angle-left"></i>
+			</div>
+			<span id="title" class="title_name">
+				
+			</span>
+			<div id="next" class="next" onClick="nextPage()">
+				下一步&nbsp;
+			</div>
+			</div>
+  		</div>
+  		<div class="column">
+  			<input class="column-content" placeholder=""/>
+  		</div>
+	</body>
+	<script src="../js/mui.js"></script>
+	<script src="../build/js/service.js"></script>
+	<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+	<script>
+
+	document.addEventListener('plusready', plusReady);
+	function plusReady(){
+		var id = plus.webview.currentWebview().id;
+		$('input').attr('placeholder',id);
+		document.getElementById('title').innerHTML=id;
+	}
+	function backPage(){
+		plus.webview.currentWebview().close();
+	}
+	function nextPage(){
+		var user = Service.getLocalUser();
+		user.pro = $('input').val();
+		Service.saveUser(user);
+		backPage();
+		plus.webview.getWebviewById('editInfo').evalJS("plusReady()");
+	}
+	</script>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>followTeacher</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_follow.css" />
+	</head>
+	<body>
+	 	<div id="tab1">
+		  	<div id="page-teacher-content"></div>
+	 	</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Discovery组件的 js -->
+	<script type="text/javascript" src="../build/js/FollowTeacher.js"></script>
+	<script>
+	var teacherlistObj;
+	mui.plusReady(function() {
+		teacherlistObj = ReactDOM.render(
+  			React.createElement(List,{}),
+  			document.getElementById('page-teacher-content')
+  		);
+	});
+
+	if(navigator.userAgent.indexOf('plus') < 0){
+		teacherlistObj = ReactDOM.render(
+  			React.createElement(List,{}),
+  			document.getElementById('page-teacher-content')
+  		);
+	}
+
+	window.addEventListener('clickTeacher', function(e) {
+		var url;
+		var that = this;
+		url = baseUrl + "/followTeachers?debugid=565a816dae1ce988100a811c";
+		mui.ajax({
+			url : url,
+			success : function(data){
+				teacherlistObj.setState({list : data.ftlist});
+			}.bind(this),
+			error : function(err){
+			}
+		});
+		var self = this;
+	});
+	window.addEventListener('clickMaster', function(e) {
+		var url;
+		var that = this;
+		url = baseUrl + "/followMasters?debugid=565a816dae1ce988100a811c";
+		mui.ajax({
+			url : url,
+			success : function(data){
+				console.log('list length : '+data.followmasterlist.length);
+				teacherlistObj.setState({list : data.followmasterlist});
+			}.bind(this),
+			error : function(err){
+			}
+		});
+		var self = this;
+	});
+
+
+	</script>
+</html>

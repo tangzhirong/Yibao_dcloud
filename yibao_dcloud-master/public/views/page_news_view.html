@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta name="misapplication-tap-highlight" content="no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<title>NewsView</title>
+		<style type="text/css">
+		*{
+			-webkit-user-select: none;
+     		-webkit-touch-callout: none;
+     		-webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+     		padding: 0;
+     		margin: 0;
+     		font-family: "microsoft yahei";
+		}
+		.header {
+			width: 100%;
+			height: 38px;
+			line-height: 38px;
+			background: rgb(247,247,247);
+			-webkit-box-shadow: 0 1.7px 1px #b7b7b7;
+			-moz-box-shadow: 0 1.7px 1px #b7b7b7;
+			box-shadow: 0 1.7px 1px #b7b7b7;
+			margin-bottom: 2.7px;
+			text-align: center;
+			font-family: "microsoft yahei";
+		}
+		.header>span{
+			line-height: 39px;
+		}
+		.header .header-left{
+			width : 25%;
+			float : left;
+			font-size : 20px;
+		}
+		.header .header-left:active{
+			background:rgb(236,236,236);
+			color:rgb(255,177,57);
+		}
+		.header-left .fa{
+			position: relative;
+			color : gray;
+			left: -10px;
+		}
+		.header .header-center{
+			width : 50%;
+			float : left;
+		}
+		.header .header-right{
+			width : 25%;
+			float : left;
+		}
+		
+		.header .fa-angle-left,
+		.header .fa-share-alt {
+			color: rgb(137,137,137);
+		}
+		.header .header-name {
+			color: black;
+			font-size: 18px;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="header hidden"  id="discoveryHeader">
+			<span class="header-left">
+				<i class="fa fa-angle-left" onClick="backPage()"></i>
+			</span>
+			<span class="header-center header-name">
+	  			文章详情
+			</span>
+			<span class="header-right" onclick="share()">
+				<i class="fa fa-share-alt"></i>
+			</span>
+  		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<script type="text/javascript">
+	var baseUrl = localStorage.getItem('baseUrl');
+
+	var shares,sharewx,shareqq,sharewb,shareIndex,shareUrl,shareTitle=null;
+	// 监听plusready事件  
+	document.addEventListener( "plusready", function(){
+		// 扩展API加载完毕，现在可以正常调用扩展API
+		plusReady();
+	}, false );
+
+	
+	function shareAction() {
+		if ( !sharewb ) {
+			return;
+		}
+		if ( sharewb.authenticated ) {
+			shareMessage( sharewb );
+		} else {
+			sharewb.authorize( shareMessage, function(e){
+				plus.nativeUI.toast( "未进行认证" );
+			} )	
+		}
+	}
+
+	
+	function shareMessage(shareIndex){
+		if(shareIndex=="1"){
+			shareqq.send( {title:shareTitle,href:shareUrl}, function(){
+				plus.nativeUI.toast( "分享成功！" );
+			}, function(e){
+				plus.nativeUI.toast("分享失败");
+			});
+		}else if(shareIndex=="2"){
+			sharewx.send( {content:shareTitle,href:shareUrl,extra:{scene:"WXSceneSession"}}, function(){
+				plus.nativeUI.toast( "分享成功！" );
+			}, function(e){
+				plus.nativeUI.toast("分享失败");
+			});
+		}else if(shareIndex=="3"){
+			sharewx.send( {content:shareTitle,href:shareUrl,extra:{scene:"WXSceneTimeline"}}, function(){
+				plus.nativeUI.toast( "分享成功！" );
+			}, function(e){
+				plus.nativeUI.toast("分享失败");
+			});
+		}else if(shareIndex=="4"){
+			sharewb.send( {content:shareTitle,href:shareUrl}, function(){
+				plus.nativeUI.toast("分享成功!");
+			}, function(e){
+				plus.nativeUI.toast("分享失败");
+			});
+		}	
+	}
+
+	
+	function share() {
+		// 弹出系统选择按钮框
+		plus.nativeUI.actionSheet( {title:"分享到",cancel:"取消",buttons:[{title:"QQ好友"},{title:"微信好友"},{title:"微信朋友圈"},{title:"新浪微博"}]}, function(e){
+			shareIndex=e.index;
+			if(e.index=="4"){
+				shareAction();
+			}else{
+				shareMessage(shareIndex);
+			};
+			
+		});
+	}	
+	var viewContent, newsViewContent;
+	function plusReady(){
+		mui.init({});
+		mui.back = function(){
+			newsViewContent.canBack(function(e) {
+				if(e.canBack){
+					newsViewContent.back();
+				}else{
+					plus.webview.currentWebview().hide('pop-out', 300);
+					newsViewContent.hide('pop-out', 300);
+				}
+			});
+	  	}
+		plus.share.getServices( function(s){
+			shares = s;
+			for(var i in s){
+				if('qq'==s[i].id){
+					shareqq=s[i];
+				}else if('weixin'==s[i].id){
+					sharewx=s[i];
+				}else if('sinaweibo'==s[i].id){
+					sharewb=s[i];
+				}
+			}
+		}, function(e){
+			plus.nativeUI.toast( "获取分享服务列表失败："+e.message );
+		} );
+	}
+	/* 更新当前页面的news信息 */
+	function updateContent(id, title, type) {	
+		//对于share 的初始化
+		shareTitle = title;
+		if(type && type == "tagArticle"){
+			shareUrl = baseUrl + '/tagArticle/'+id;
+			document.querySelector('.header-name').innerHTML = title;
+		}else
+			shareUrl = baseUrl + '/article/'+id;
+
+		newsViewContent = plus.webview.create(shareUrl,'newsViewContent',{top : "39px", bottom:"0px"});
+		plus.nativeUI.showWaiting( "加载中" );
+		setTimeout(function() {
+			newsViewContent.show('pop-in');
+			plus.webview.currentWebview().show('pop-in', 0, function() {
+				// 更新其子页面
+				plus.nativeUI.closeWaiting();
+			});
+		}, 50);
+	}
+	function backPage() {
+		newsViewContent.canBack(function(e) {
+			if(e.canBack){
+				newsViewContent.back();
+			}else{
+				plus.webview.currentWebview().hide('pop-out', 300);
+				newsViewContent.hide('pop-out', 300);
+			}
+		});
+	}
+	</script>
+</html>

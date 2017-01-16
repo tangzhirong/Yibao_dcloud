@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_info.css" />
+		<style>
+			body{
+				padding:0px;
+				margin:0px;
+			}
+			.line-column .noting{
+				position: relative;
+				float:right;
+				border-radius: 20px;
+				margin-top:11px;
+				margin-right: 5px;
+				height: 21px;
+				line-height: 21px;
+				padding-left: 10px;
+				padding-right: 10px; 
+				width:auto;
+				color: white;
+				background: rgb(235,37,37);
+			}
+			.hidden{
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+  		<div id="page_info">
+  		<div id="page_info_render"></div>
+  		<div class="container">
+    <div class="main-content">
+	    <!-- <div class="line-column invitation" id="invitation" onclick="go('getInvitation')">
+		 <div class="icon" id ="icon">
+		 </div>
+		 <span id="invitationText">老师点评</span>
+		 <i class="fa fa-angle-right">
+		 </i> -->
+        <!-- <div class="noting">3</div> -->
+        <!-- <div class="line"></div>
+	     </div> -->
+      <div class="line-column publish" id="publish" onclick="go('publish')">
+        <div class="icon" id ="icon">
+        </div>
+        <span>我的画作</span>
+        <i class="fa fa-angle-right">
+        </i>
+        <div class="line"></div>
+      </div>
+      <div class="line-column comment" id="comment" onclick="go('getComment')">
+        <div class="icon" id ="icon">
+        </div>
+        <span>点评消息</span>
+        <i class="fa fa-angle-right">
+        </i>
+        <!-- <div class="noting">3</div> -->
+        <div class="line"></div>
+      </div>
+      <!-- <div class="line-column homepage" id="homepage" onclick="go('homepage')">
+           <div class="icon" id ="icon">
+           </div>
+           <span>我的主页</span>
+           <i class="fa fa-angle-right">
+           </i>
+           <div class="line"></div>
+	   </div> -->
+      <!-- <div class="line-column message" id="message" onclick="go('yibao_noting')">
+           <div class="icon" id ="icon">
+           </div>
+           <span>艺宝通知</span>
+           <i class="fa fa-angle-right">
+           </i>
+           <div class="noting">3</div>
+	   </div> -->
+    </div>
+    <div class="mine-content">
+      <div class="line-column favour" id="favour" onclick="go('collection')">
+        <div class="icon" id ="icon">
+        </div>
+        <span>我的收藏</span>
+        <i class="fa fa-angle-right">
+        </i>
+        <div class="line"></div>
+      </div>
+      <div class="line-column attention" id="follow" onclick="go('follow')">
+        <div class="icon" id ="icon">
+        </div>
+        <span>我的关注</span>
+        <i class="fa fa-angle-right">
+        </i>
+        <div class="line"></div>
+      </div>
+      <div class="line-column fans" id="fans" onclick="go('fans')">
+        <div class="icon" id ="icon">
+        </div>
+        <span>我的粉丝</span>
+        <i class="fa fa-angle-right">
+        </i>
+        <!-- <div class="noting">3</div> -->
+      </div>
+    </div>
+  </div>
+  		</div>
+  		
+	</body>
+	<script src="../js/mui.min.js"></script> 
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<script type="text/javascript" src="../build/js/PanelMe.js"></script>
+	<script src="../build/js/service.js"></script>
+	
+	<script>
+	var user = Service.getLocalUser();
+
+	console.log('ME - USER : '+ JSON.stringify(user));
+	
+	/* if(user.role && user.role.toLowerCase() == 'student')
+	   document.getElementById('invitationText').innerHTML="老师点评";
+	   else
+	   document.getElementById('invitationText').innerHTML="收到邀请"; */
+
+	document.addEventListener('plusready', plusReady);
+	
+	var meCard = ReactDOM.render(
+  		React.createElement(MeCard, {user : user}),
+  		document.getElementById('page_info_render')
+  	);	
+
+	function plusReady() {
+		mui.back = function() {
+			if(confirm('您确定退出艺宝吗?')){
+  				plus.runtime.quit();
+  			}
+		};
+	}
+	function go(id){
+		if(plus.webview.getWebviewById('page'+id+'.html')== undefined)
+		{
+			if(id == 'homepage')
+			{
+				/* if(user.role == "STUDIO")
+				   var me = plus.webview.create("page_home_page_studio.html",id); */
+				if(user.role == "TEACHER")
+					var me = plus.webview.create("page_home_page_teacher
+.html#/id/"+user._id,id);
+				else
+					var me = plus.webview.create("page_home_student.html#/id/"+user._id,id);
+				
+				setTimeout(function() {
+					me.show('pop-in', 150);
+				}, 200);
+			}else{
+				var me = plus.webview.create("page_"+id+".html",id);
+				setTimeout(function() {
+					me.show('pop-in', 150);
+				}, 150);
+
+			}
+		}
+	}
+
+	function update() {
+		meCard.setState({user : Service.getLocalUser()});
+	}
+	</script>
+</html>

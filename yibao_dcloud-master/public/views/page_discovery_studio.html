@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>disStudio</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_discovery.css" />
+	</head>
+
+	<body>
+	 	<div id="tab2">
+			<div id="page-tab2sidebar-content"></div>
+			<div id="page-studio-content">
+				<div className="sidebar">
+					<ul></ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.js"></script> 
+	<script src="../bower_components/react/react.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Discovery组件的 js -->
+	<script type="text/javascript" src="../build/js/DiscoveryStudio.js"></script>
+	<script>
+		var catelistObj,studiolistObj;
+	var baseUrl = localStorage.getItem('baseUrl');
+	
+		//估算大致的加载时间,去除splash
+		document.addEventListener('plusready',function(){
+			plusReady(commonFunction);
+			//setTimeout(function(){plus.navigator.closeSplashscreen();}, 120);
+		});
+		var cateClickHandler;
+		plusReady = function(cb){
+			/* 	刚进入时先初始化下一个界面的 Next webview */
+			cateClickHandler = function() {
+				var newcate = this.state.cate;
+				//ajax
+				mui.ajax({
+					type : "post",
+					url : baseUrl + '/itemsByCategory',
+					data : {
+						cateid : newcate._id,
+						type : 'user'
+					},
+					success : function(data){
+						studiolistObj.setState({list : data.userlist});
+					}.bind(this)
+				});
+			};
+	  		mui.back = function(){
+	  			if(confirm('您确定退出艺宝吗?')){
+	  				plus.runtime.quit();
+	  			}
+	  		}
+	  		var list = document.querySelectorAll("#page-tab2sidebar-content li");
+			list[0].className += ' sidefocused';
+			cb();
+		}
+		function commonFunction(){
+			catelistObj = ReactDOM.render(
+	  			React.createElement(CateList, {cateClickHandler:cateClickHandler}),
+	  			document.getElementById('page-tab2sidebar-content')
+	  		);
+	  		studiolistObj = ReactDOM.render(
+		  		React.createElement(List, {}),
+		  		document.getElementById('page-studio-content')
+	  		);
+		}
+		commonFunction();	
+	</script>
+</html>

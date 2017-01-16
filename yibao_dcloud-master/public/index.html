@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta name="misapplication-tap-highlight" content="no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	</head>
+	<script src="./build/js/service.js"></script>
+	<script>
+	document.addEventListener('plusready', plusReady);
+	//1. Plus 环境中专用代码
+	function plusReady(){
+		var nextPage;
+		function preload() {
+			var user = Service.getLocalUser();
+			if(!user){
+				/* 如果本地不存在用户，则判断为第一次登录的用户 */
+				nextPage = plus.webview.create('./views/page_login.html', 'pageLogin',{preload : true});
+			}else if(!user.role){
+				nextPage = plus.webview.create('./views/page_selectIdentity.html','selectIdentity',{preload : true});
+			}else if(!user.nickname){
+				nextPage = plus.webview.create('./views/page_basic_info.html','basic_info',{preload : true});
+			}else{
+				nextPage = plus.webview.create('./views/main.html','main',{render:"always",preload : true});
+			}
+		}
+		preload();
+		if(!nextPage)
+			return;
+		setTimeout(function() {
+			nextPage.show();
+		},20);
+		plus.webview.getLaunchWebview().hide();
+	}
+	</script>
+</html>

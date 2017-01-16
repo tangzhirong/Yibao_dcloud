@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/Works.css" />
+		<style>
+			*{
+				padding: 0;
+				margin: 0;		
+			}
+			.nothing{
+				height:60px;
+				width:100%;
+				text-align: center;
+				line-height: 60px;
+				font-size: 15px;
+				color: rgb(71,176,197);
+				font-family: "微软雅黑";
+			}
+		</style>
+	</head>
+
+	<body>
+  		<div id="page_publish"></div>
+	</body>
+	<script src="../js/mui.min.js"></script> 
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/works.js"></script>
+	<script type="text/javascript" src="../build/js/Publish.js"></script>
+	<script type="text/javascript" src="../build/js/service.js"></script> 
+	<script>
+
+	var baseUrl = localStorage.getItem('baseUrl');
+	document.addEventListener('plusready', plusReady);
+	
+	function plusReady(){
+		var user = Service.getLocalUser();
+		ReactDOM.render(
+  			React.createElement(Publish,{user_id : user._id}),
+  			document.getElementById('page_publish')
+  		);
+	}
+
+	mui('#page_publish').on('tap', '.work', function(e) {
+		var feedid = this.id;
+		plus.nativeUI.showWaiting( "加载中" );
+		console.log('feedid :'+ feedid);
+		var feedDetail = plus.webview.getWebviewById('feedDetail');
+		feedDetail.evalJS("update('"+feedid+"')");
+		setTimeout(function(){
+			feedDetail.show('pop-in',200, function() {
+				plus.nativeUI.closeWaiting();
+			});
+		},200);
+	});
+	
+	function backPage(){
+		plus.webview.currentWebview().close('slide-out-right',240);
+	}	
+	</script>
+</html>

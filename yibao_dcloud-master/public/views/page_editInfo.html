@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_editInfo.css" />
+		<title>Feeds</title>
+	</head>
+
+	<body>
+  		<div id="page_title">
+  			<div class="title">
+			<div class="title_back" onClick="backPage()">
+				<i class="fa fa-angle-left"> </i>
+			</div>
+			<span id="title" class="title_name">
+				个人信息
+			</span>
+			</div>
+  		</div>
+		<div id="page_editInfo">
+  			<div id="append"></div>
+  			<div id="exit" class="exit-login hidden" onclick="exit()">
+				<span>退出登录</span>
+			</div>
+  		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/EditInfo.js"></script>
+	<script type="text/javascript" src="../build/js/service.js"></script>
+	<script>
+
+	document.addEventListener('plusready', plusReady);
+	
+	var user = Service.getLocalUser();
+	if(user.role == "STUDIO")
+	{
+		ReactDOM.render(
+	  		React.createElement(EditStudio, {user : user}),
+	  		document.getElementById('append'));
+	}
+	else
+		ReactDOM.render(
+	  		React.createElement(EditColumnList, {user : user}),
+	  		document.getElementById('append'));
+	document.getElementById('exit').className = "exit-login";
+
+	
+	function plusReady(){
+		mui.back = backPage;
+	}
+	function updateUser(city){
+		user.city = city;
+		Service.saveToRemote(user);
+		if(user.role == "STUDIO")
+		{
+			ReactDOM.render(
+	  			React.createElement(EditStudio, {user : user}),
+	  			document.getElementById('append'));
+		}
+		else
+			ReactDOM.render(
+	  			React.createElement(EditColumnList, {user : user}),
+	  			document.getElementById('append'));
+	}
+	</script>
+	<script>
+	function exit() {
+		var login = plus.webview.create('page_login.html','pageLogin');
+		login.show('pop-in');
+
+
+		localStorage.setItem("localUser", "");
+		var date = new Date();
+		date.setTime(date.getTime()-10000);
+		document.cookie="sessionid"+"=v; expire="+date.toGMTString()+"; path=/";
+		
+		var ws = plus.webview.all();
+		for(var i = 0; i < ws.length; i++) {
+			if(ws[i].id != 'page_editInfo.html' &&  ws[i].id != 'HBuilder' && ws[i].id != "pageLogin")
+				ws[i].close();
+		}
+		plus.webview.currentWebview().hide();
+
+	}
+	function backPage(){
+		plus.webview.getWebviewById('main-menu.html').evalJS("update()");
+		plus.webview.currentWebview().close('slide-out-right',300);
+		Service.saveToRemote(null, function(err, user) {
+			if(!err)
+				plus.nativeUI.toast('用户信息保存成功');
+		});
+	}
+	</script>
+</html>

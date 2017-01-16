@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_yibao_noting.css" />
+		<style>
+			body{
+				padding:0;
+				margin:0;
+			}
+			.nothing{
+				height:60px;
+				width:100%;
+				text-align: center;
+				line-height: 60px;
+				font-size: 15px;
+				color: rgb(71,176,197);
+				font-family: "微软雅黑";
+			}
+		</style>
+	</head>
+
+	<body>
+  		<div id="page_yibao_noting"></div>
+	</body>
+	<script src="../js/mui.js"></script> 
+	<script src="../bower_components/react/react.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/yibao_noting.js"></script>
+	<script type="text/javascript" src="../build/js/service.js"></script>
+	<script>
+
+	document.addEventListener('plusready', plusReady);
+	function plusReady(){
+		ReactDOM.render(
+  		React.createElement(YibaoNoteList),
+  		document.getElementById('page_yibao_noting')
+  		);
+	}
+	function backPage(){
+		plus.webview.currentWebview().close('slide-out-right',240);
+	}
+	</script>
+</html>

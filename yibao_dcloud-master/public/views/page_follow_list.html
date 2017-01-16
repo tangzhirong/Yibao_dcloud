@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Follow</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<style>
+		*{
+			-webkit-user-select: none;
+     			-webkit-touch-callout: none;
+     			-webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+		}
+		html,body
+		{
+			padding: 0px;
+			margin: 0px;
+		}
+		.tab
+		{
+			height:30px;
+			background:white;
+			border-bottom: 1px solid rgb(223,223,233);
+		}
+		.tab .active
+		{
+			border-bottom: 2px solid rgb(71,176,199);
+			color:rgb(71,176,199);
+		}
+		.tab>div
+		{
+			color:rgb(172,172,172);
+			float:left;
+			width: 50%;
+			border-bottom: 0px solid rgb(71,176,199);
+		}
+		#tabTeacher,#tabStudio,#tabMaster,#tabSchool
+		{
+			height:28px;
+			line-height:28px;
+			font-size:13.333px;
+			text-align:center;
+		}
+		</style>
+	</head>
+
+	<body>
+	</body>
+	<script src="../js/mui.min.js"></script> 
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<script src="../build/js/service.js"></script>
+	<script>
+	var isPlus = false;
+	var user = null;
+	var isFollow = false;//判断是推荐关注调用该界面，还是我的关注界面调用
+	//估算大致的加载时间,去除splash
+	document.addEventListener('plusready',function(){
+		isPlus = true;
+		var suggestList = plus.webview.getWebviewById('suggest');
+		if(suggestList){
+			isFollow = true;
+		}
+		plusReady();
+		setTimeout(function(){plus.navigator.closeSplashscreen();}, 100);
+	});
+	
+	var followTeacher,followStudio,followMaster,followSchool;
+	function plusReady(){
+		user = Service.getLocalUser();
+		mui.init({
+			subpages:[{
+				url:'page_follow_teacher.html',
+				id:'followTeacher_child',
+				styles:{
+					top:'31px',
+					bottom:'0px'
+				}
+			},{
+				     url:'page_follow_school.html',
+				     id:'followSchool_child',
+				     styles:{
+					     top:'31px',
+					     bottom:'0px'
+				     }
+			}]
+	        });
+	}
+	function init(){
+		followTeacher = plus.webview.getWebviewById('followTeacher_child');
+		/* 			followStudio = plus.webview.getWebviewById('followStudio_child'); */
+		followSchool = plus.webview.getWebviewById('followSchool_child');
+//		followMaster = plus.webview.getWebviewById('followMaster_child');
+		followTeacher.evalJS("selectFollow('"+isFollow+"')");
+		//			followSchool.evalJS("selectFollow('"+isFollow+"')");
+		//			followMaster.evalJS("selectFollow('"+isFollow+"')");
+		followTeacher.show();
+	}
+	var currentTab = 'tabTeacher';
+	var previousTab = currentTab;
+	function switchTab(tabid){
+		previousTab = currentTab;
+		currentTab = tabid;	   		
+		var prevDom = document.getElementById(previousTab);
+		prevDom.className = prevDom.className.replace('active','');
+		document.getElementById(currentTab).className += ' active';
+		if(currentTab == previousTab) return;
+		//切换webview
+		if(!followTeacher) return;
+		if(currentTab == 'tabTeacher'){
+		   	setTimeout(function(){
+		   		followTeacher.show('pop-in',100,function() {
+					/* 		   					followStudio.hide(); */
+		   			followMaster.hide();
+		   			followSchool.hide();
+		   		});
+		   	},80);   			
+		}else if(currentTab == 'tabMaster'){
+		   	setTimeout(function(){
+		   		followMaster.show('pop-in',100,function() {
+		   			followTeacher.hide();
+					/* 		   					followStudio.hide(); */
+		   			followSchool.hide();
+		   		});
+		   	},80); 			 
+		}
+	}
+	switchTab(currentTab); 
+	mui('.tab').on('tap', '.item',function(e){
+		switchTab(this.id);
+	});
+	
+	</script>
+</html>

@@ -1,0 +1,217 @@
+*
+{
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+}
+html,body
+{
+    padding: 0;
+    margin: 0;
+}
+#tab1,#tab2,#tab3,#tab4
+{
+    background-color:rgb(236,236,236);
+    width:100%;
+    height:auto;
+    padding:0;
+    margin:0;
+    font-family: "Microsoft YaHei";
+}
+.display
+{
+    display:initial;
+    
+}
+
+.undisplay
+{
+    display: none;
+}
+#page-teacher-content,#page-studio-content,#page-school-content,#page-master-content
+{
+    position: absolute;	
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(226,226,226);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+/*#tab1 .content .feed,#tab3 .content .feed,#tab4 .content .feed,
+{
+    float: left;
+    height: 57px;
+    width: 100%;
+    background-color: white;
+    margin-bottom: 1px;
+}*/
+#tab1 .teacherbar,#tab2 .studiobar,#tab4 .schoolbar,#tab3 .feed
+{
+position: relative;
+    height: 80px;
+    padding: 0px 1% 6px 1%;
+    width: 98%;
+    background-color: white;
+    margin-bottom: 1px;
+}
+#tab1 .profile,#tab2 .profile,#tab4 .profile
+{
+    float: left;
+    padding: 0 10px;
+    height: 44px;
+    width: 44px;
+    margin-top: 18px;
+}
+#tab1 .info,#tab2 .info,#tab4 .info
+{
+    float: left;
+    position: relative;
+    top:2px;
+    width: 50%;
+    height: 100%;
+    margin-left:5px;
+    line-height: 14px;
+}
+#tab1 img,#tab2 img,#tab4 img
+{
+    height: 44px;
+    width: 44px;
+    border-radius:50%;
+}
+#tab1 .teachername,#tab1 .teacherinfo,#tab1 .teacherstate,#tab4 .schoolname,#tab4 .schoolinfo,#tab2 .studioname,#tab2 .studioinfo,#tab2 .studiostate
+{
+    position: absolute;
+}
+#tab1 .teachername,#tab2 .studioname,#tab4 .schoolname
+{
+    color: black;
+    font-size: 15px;
+    top: 20%;
+}
+#tab1 .teacherinfo,#tab2 .studioinfo,#tab4 .schoolinfo
+{
+    color: rgb(161,161,161);
+    font-size: 13px;
+    top: 48%;
+}
+#tab1 .teacherstate,#tab2 .studiostate
+{
+    color: rgb(161,161,161); 
+    font-size: 13px;
+    top: 70%;
+}
+#tab2 .ranking
+{
+    position:absolute;
+    right: 20px;
+    top:3px;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
+    background-color: rgb(244,99,36);
+    color: white;
+    font-size: 11px;
+}
+#tab2 .box
+{
+    position: relative;
+    float: left;
+    width: 49%;
+    height: 99.7px;
+    margin-bottom: 1px;
+    margin-right: 1px;
+    background-color: white;
+}
+#tab2 .text
+{
+    position: relative;
+    top: 10px;
+    color: white;
+    font-size: 13px;
+    text-align: center;
+}
+#tab2 .title
+{
+    float: left;
+    font-size: 13px;
+    color: rgb(70,70,70);
+    width: 100%;
+    text-align: center;
+    margin-top: 9px;
+}
+/*#tab3 .feed
+{
+    background-color: white;
+    height: 99.7px;
+}*/
+#tab3 .master-info
+{
+    position:relative;
+    float:left;
+    padding-top:6px;
+    height:40.667px;
+    width:100%;
+    background:white;
+}
+#tab3 .master-info .profile img
+{
+    position:relative;
+    float:left;
+    margin-left:4.63%;
+    height:40.667px;
+    width:40.667px;
+    border-radius:50%;
+}
+#tab3 .info
+{
+    position:relative;
+    float:left;
+    width:50%;
+    height:40.667px;
+    margin-left:5px;
+}
+#tab3 .name
+{
+    font-size:13px;
+    height:20px;
+    color:black;
+}
+#tab3 .info-infor
+{
+    font-size:10px;
+    color:rgb(149,149,149);
+}
+#tab3 .small
+{
+    font-size:7px;
+    color:rgb(149,149,149);
+}
+.addfollow,.followed
+{
+    position:relative;
+    float:right;
+    top:10px;
+    width:48px;
+    height:15px;
+    line-height: 15px;
+    text-align: center;
+    border-radius: 4px;
+    color: rgb(71,176,199);
+    margin-top:20px;
+    margin-right: 4.8%;
+    padding: 5px 6px;
+    border: solid 1px rgb(71,176,199);
+    font-size: 12px;
+}
+#tab3 .addfollow,#tab3 .followed
+{
+    top:5px;
+}
+.followed
+{
+    color:rgb(255,177,57);
+    border: solid 1px rgb(255,177,57);
+}

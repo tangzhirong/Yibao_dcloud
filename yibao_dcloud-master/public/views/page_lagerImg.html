@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" />
+		<title>图片</title>
+	</head>
+	<body>
+		<img id="img" src="local" width="100%" onclick="back()"/>
+	</body>
+	<style>
+		body,html{
+			margin:0;
+			text-align: center;
+			padding: 0;
+			height:100%;
+			width:100%;
+			background: black;
+		}
+		img{
+			position: relative;
+			width:100%;
+			margin: auto;
+		}
+	</style>
+	<script src="../js/mui.js"></script> 
+	<script src="../bower_components/react/react.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/imgTemplate.js"></script> 
+	<script>
+		function view(url)
+		{
+			document.getElementById('img').src = url;
+			document.getElementById('img').style.top="50%";
+			document.getElementById('img').style.marginTop="-50%";
+			setTimeout(function () {
+			plus.webview.currentWebview().show("zoom-fade-out",240);
+		}, 50);
+		}
+		function back(){
+			plus.webview.currentWebview().hide("zoom-fade-in",240);
+		}
+	</script>
+</html>

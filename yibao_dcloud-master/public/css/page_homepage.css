@@ -1,0 +1,612 @@
+#page_homepage
+{
+	width:100%;
+	height:auto;
+	z-index:0;
+	font-family: "Microsoft YaHei";
+}
+#page_homepage .card-image
+{
+    position:relative;
+    float:left;
+    width:100%;
+    height:180px;
+    z-index: 0;
+    background-size:100%;
+}
+#head{
+	position: absolute;
+	height:180px;
+	top:0px;
+	width: 100%;
+	z-index: -5;
+}
+#page_homepage .card
+{
+	position: relative;
+    float:left;
+    width:100%;
+    height:180px;
+    z-index: 3;
+    
+}
+#page_homepage .card .Title
+{
+    position:fixed;
+    width:10%;
+    top:0px;
+    height:38px;
+}
+#page_homepage .card i{
+    position: fixed;
+    float:left;
+    margin-left: 14.667px;
+    margin-top: 6px;
+    font-size: 26px;
+    z-index: 999;
+    color: white;
+}
+#page_homepage .card .setFollowBtn{
+	position: relative;
+	float:right;
+	margin-right: 14px;
+	height: 32px;
+	font-size: 22px;
+	line-height: 38px;
+	width:32px;
+	text-align: center;
+	color:rgb(236,236,236);
+}
+#page_homepage .card .setFollowBtn:active{
+	color: rgb(149,149,149);
+}
+#page_homepage .card .celFollowBtn:active{
+	color: rgb(149,149,149);
+}
+#page_homepage .card .celFollowBtn{
+	position: relative;
+	float:right;
+	margin-right: 14px;
+	height: 32px;
+	font-size: 22px;
+	line-height: 38px;
+	width:32px;
+	text-align: center;
+	color:rgb(236,236,236);
+}
+#page_homepage .card .head-info{
+	position: relative;
+	float: left;
+	margin-top: 47px;
+	height: 120px;
+	text-align: center;
+}
+#page_homepage .card .head
+{
+    position: relative;
+    height: 72px;
+    width: 72px;
+    margin-left: 20px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+#page_homepage .headPortrait
+{
+    position: relative;
+    height: 70px;
+    width: 70px;
+    background-repeat: none;
+    background-size: 100%;
+    border-radius: 35px;
+}
+#page_homepage .headPortrait img{
+	border-radius: 35px;
+	border:2px solid white;
+}
+#page_homepage .card .head .v
+{
+    position: absolute;
+    z-index: 3;
+    width:20px;
+    height:20px;
+    border-radius:10px;
+    right:3px;
+    bottom:3px;
+    background:url(../img/icon.png)no-repeat;
+    background-size: 454px 827px;
+    background-position:-274px -227px;
+}
+#page_homepage .card .identity{
+    height:16px;
+    width:39px;
+    line-height: 15px;
+    margin-top:4px;
+    margin-left:auto;
+    margin-right: auto;
+    text-align: center;
+    background:rgb(255,177,57);
+    border-radius: 3px;
+    color:white;
+    font-size: 12px;
+}
+#page_homepage .card .info
+{
+    position: relative;
+    height: 35px;
+    margin-left:20px;
+    color:white;
+}
+#page_homepage .card .info .name
+{
+    position: relative;
+    text-align: center;
+    word-spacing:2px;
+    letter-spacing: 2px;
+    font-size: 14px;
+}
+#page_homepage .card .info .class
+{
+    position:relative;
+    float:left;
+    font-size: 12px;
+}
+#page_homepage .card .info .visit{
+    position:relative;
+    float:left;
+    margin-left: 3px;
+    font-size:12px;
+}
+#page_homepage .card .info .address{
+    margin-right: auto;
+    margin-left: auto;
+    width:60%;
+    text-align: center;
+    margin-top: 2px;
+    font-size: 12px;
+}
+#page_homepage .card .tab{
+    position: relative;
+    float:right;
+    width:70%;
+    height:180px;
+    margin-top:17px;
+    height:30px;
+    color:white;
+}
+#page_homepage .card .tab .comment,
+#page_homepage .card .tab .fans,
+#page_homepage .card .tab .flowers,
+#page_homepage .card .tab .favour{
+    position: relative;
+    float:left;
+    width:24.5%;
+    height:30px;
+}
+#page_homepage .card .tab .favour{
+     border-right: 0px;
+}
+#page_homepage .card  .min-tab
+{
+    position: relative;
+    float:left;
+    width:33.0%;
+    height:30px;
+}
+#page_homepage .card  .fan
+{
+    border-right: 0px solid white;
+}
+#page_homepage .card  .text
+{
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 20px;  
+}
+#page_homepage .card .min-tab 
+#page_homepage .card .tab .favour{
+    border-right: 0px solid white;
+}
+#page_homepage .card .num{
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+    line-height: 14px;
+}
+#page_homepage .card .setFollow{
+	position: relative;
+	float:right;
+	color:white;
+	border-radius: 2px;
+	height:70px;
+	width:50%;
+	margin-top:10px;
+	margin-right: 44px;
+	font-weight: 500;
+	padding-top:4px;
+	line-height: 20px;
+	font-size: 12px;
+	background:transparent;
+}
+#page_homepage .card  .rank
+{
+    position: absolute;
+    bottom:0;
+    right:0;
+    height:8px;
+    width:16px;
+    border-radius:3px;
+    background:rgb(255,177,60);
+    text-align: center;
+    color:white;
+    font-size: 6px;
+    line-height: 7px;
+}
+#page_homepage .display
+{
+	position: relative;
+	float:left;
+    z-index: 5;
+	height:auto;
+	width: 100%;
+}
+#page_homepage .work-display
+{
+    position: relative;
+    float: left;
+    height: auto;
+    width: 98%;
+    margin-left:1%;
+    text-align: center;
+    background:white;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    margin-top: 6px; 
+    border-radius: 2px;
+}
+#page_homepage .title
+{
+    position: relative;
+    height: 26px;
+    width:100%;
+}
+#page_homepage .icon
+{
+    position: relative;
+    float: left;
+    margin-left: 7px;
+    width: 22px;
+    height:22px;
+    background:url(../img/icon.png) no-repeat;
+    background-size: 227px 413px;
+}
+#page_homepage .photo
+{
+    background-position: -145px -5px;
+}
+#page_homepage .title span
+{
+    position: relative;
+    font-size: 14px;
+    line-height: 20px;
+}
+#page_homepage .title .left
+{
+    float: left;
+    margin-left: 3px;
+    color:rgb(149,149,149);
+}
+#page_homepage .title .right
+{
+    float: right;
+    margin-right: 20px;
+    color:rgb(71,176,199);
+}
+#page_homepage .work-content-teacher,
+#page_homepage .work-content
+{
+    position: relative;
+    height:50px;
+    width:97%;
+    margin:auto;
+}
+#page_homepage .work-content img
+{
+    position: relative;
+    width:18%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+#page_homepage .list
+{
+    background-position: -169px -5px;
+}
+#page_homepage .work-display .info
+{
+    width:85%;
+}
+#page_homepage .column
+{
+    position: relative;
+    float: left;
+    width:100%;
+    text-indent: -10px;
+    line-height: 30px;
+    border-bottom: 1px solid rgb(208,208,208);
+}
+#page_homepage .column-title
+{
+    position: relative;
+    float: left;
+    font-size: 14px;
+    color:rgb(149,149,149);
+}
+#page_homepage .column-content
+{
+    position: relative;
+    float: left;
+    padding:0;
+    margin:0;
+    width:70%;
+    top:7px;
+    outline: none;
+    z-index: 8;
+    border:none;
+    text-indent: 8px;
+    font-size: 14px;
+    color:rgb(90,90,90);
+    background:none !important;
+}
+#page_homepage .speciality
+{
+    background-position:-124px -5px;
+}
+#page_homepage .tags
+{
+    position: relative;
+    margin: auto;
+    height: auto;
+    width: auto;
+}
+#page_homepage .tag-rect
+{
+    position: relative;
+    display: inline-block;
+    float: left;
+    width:64px;
+    height:24px;
+    margin: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+#page_homepage .tag
+{
+    position: relative;
+    float: left;
+    width:60px;
+    height:20px;
+    line-height: 20px;
+    background: rgb(71,176,199);
+    text-align: center;
+    font-size: 14px;
+    color:white;
+    border-radius:2px;
+}
+#page_homepage .tags span
+{
+    position: absolute;
+    bottom:0;
+    right:0;
+    font-size: 9px;
+    color:rgb(149,149,149);
+}
+#page_homepage .tags .selected
+{
+    color: rgb(255,60,80);
+}
+#page_homepage .tags .noselected
+{
+    color: rgb(149,149,149);
+}
+#page_homepage .tags .fa-check
+{
+    color: white;
+}
+#page_homepage .studio .catalogue
+{
+    position: relative;
+    float: left;
+    width: 100%;
+    height:85px;
+    margin-top: 2px;
+    background:white;
+}
+#page_homepage .studio .horizontal
+{
+    position: relative;
+    float: left;
+    padding-top:6px;
+    text-align: center;
+    width: 33.33%;
+    height: 100%;
+}
+#page_homepage .studio .horizontal:active{
+	background:rgb(236,236,236);
+}
+#page_homepage .studio .horizontal span
+{
+	position:relative;
+	font-size: 12px;
+	top:-15px;
+}
+#page_homepage .studio .right
+{
+    float:right;
+}
+#page_homepage .studio .image{
+    position: relative;
+    margin:auto;
+    width:46px;
+    height:46px;
+    background:url(../img/icon.png);
+    background-size: 454px 827px;
+}
+#page_homepage .studio .studio-brief
+{
+    background-position: -162px -158px;
+}
+#page_homepage .studio .environment
+{
+    background-position: -21px -158px;
+}
+#page_homepage .studio .progress
+{
+    background-position: -90px -158px;
+}
+#page_homepage .studio .teacher-info
+{
+    position: relative;
+    float: left;
+    text-align: center;
+    height: 70px;
+    width: 18%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+#page_homepage .studio .teacher-info img{
+    position: relative;
+    border-radius: 50%;
+    width:50px;
+    height:50px;
+    margin:auto;
+} 
+#page_homepage .studio .teacher-info .name
+{
+    position: relative;
+    float:left;
+    width: 100%;
+    margin-top: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 12px;
+    color:rgb(37,37,37);
+}
+.works_card_contain{
+	position: relative;
+	float: left;
+	width:100%;
+	height:auto;
+	background: white;
+}
+.works_card_contain .timeline .timeline-circle{
+	position: absolute;
+	left:5px;
+	width:20px;
+	height:20px;
+	line-height: 24px;
+	border-radius:50%;
+	font-size: 6px;
+	color:white;
+	text-align: center;
+	background:rgba(236,236,236,0.5);
+	z-index: 3px;
+}
+.works_card_contain .timeline .timeline-longline{
+	position: absolute;
+	bottom:0px;
+	top:20px;
+	left:14px;
+	height:auto;
+	width:2px;
+	background:rgba(236,236,236,0.8);
+}
+.tips{
+	position: relative;
+    float:right;
+    color: rgb(55,55,55);
+    text-align: center;
+    height: auto;
+    top:3px;
+    width: 88%;
+    margin-right: 2%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-radius: 2px;
+    background:rgba(236,236,236,0.6);
+}
+.works_card
+{
+    position: relative;
+    float:right;
+    height: auto;
+    top:3px;
+    width: 99%;
+    margin-right: 0.5%;
+    padding-top: 8px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+    color: rgba(71,176,197,0.8);
+}
+.card-content
+{
+    position: relative;
+    height: auto;
+    width:96%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.works_info
+{
+    position: relative;
+    float:left;
+    width:100%;
+    margin-bottom: 2px;
+}
+.works_info span{
+	position: relative;
+	top:-2px;
+	font-size:small;
+}
+.works_time{
+	font-size:small;
+}
+.works_info .text
+{
+    position: relative;
+    line-height: 20px;
+}
+.works_info .works_time
+{
+    float:left;
+    left:1px;
+}
+.works_info .works_num
+{
+    float:right;
+    right:1px;
+}
+.work
+{
+    position: relative;
+    float: left;
+    width:32%;
+    border-radius: 2px;
+    box-shadow: -1px 0px 1px rgba(178,178,178,1),
+    			1px 0px 1px rgba(178,178,178,1),
+    			0px -1px 1px rgba(178,178,178,1),
+    			0px 1px 1px rgba(178,178,178,1)
+    margin-bottom: 4px;
+    margin-right: 0.5%;
+    margin-left: 0.5%;
+}
+.nothing{
+	height:60px;
+	width:100%;
+	text-align: center;
+	line-height: 60px;
+	font-size: 15px;
+	color: white;
+	font-family: "微软雅黑";
+	}

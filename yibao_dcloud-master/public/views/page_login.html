@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta name="misapplication-tap-highlight" content="no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title>登录</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../css/page_login.css" type="text/css" media="screen" />
+	</head>
+	<body>
+		<div class="page" id="page_login">
+			<div class="logo">
+				<img src="../img/logoText.png" class="TM">
+			</div>
+			<div class="field-login">
+				<input type="number" id="ID" class="ID error" placeholder="请输入您的手机号">
+				</input>
+				<input type="number" id="code" class="verification-code" placeholder="请输入验证码">
+				</input>
+				<div class="send-code waitting" id="sendcode">
+					<span>发送验证</span>
+				</div>
+				<div class="login" id="login">
+					<span>登录</span>
+				</div>
+				<div class="credit">
+					<span>登录表示同意</span>
+					<span onclick="treaty()">用户协议</span>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="../build/js/service.js"></script>
+	<script>
+
+	var baseUrl = window.baseUrl;
+	var clientID;
+	var nextPages = [];
+
+	mui.plusReady(function() {
+		var info = plus.push.getClientInfo();
+		clientID = info.clientid;
+		function preload() {
+			nextPages[0] = plus.webview.create('./views/page_selectIdentity.html','selectIdentity',{preload : true});
+			nextPages[1] = plus.webview.create('./views/main.html','main',{preload : true});
+		};
+		preload();
+	});
+
+	//如果非plus环境则使用webReady函数
+	if(navigator.userAgent.indexOf('Html5Plus') < 0){
+		setTimeout(function() {
+			webReady(window.commonFunction || function() {});
+		},0);
+	}
+	
+	/* 先定义back键的行为 */
+	var firstBackTap = true;
+	mui.back = function() {
+		if(firstBackTap){
+			firstBackTap = false;
+			plus.nativeUI.toast('再按一次退出应用');
+			setTimeout(function() {
+				firstBackTap = true;
+			},2000);
+		}else{
+			plus.runtime.quit();
+		}
+	}
+	
+	var sendable = true;//是否在45秒内，可否发送验证码
+	var codable = false;//是否发送了验证码
+	//获得焦点时边框恢复正常
+	$('#ID').focus(function(){
+		$(this).removeClass('error').addClass('normal');
+	});
+	//当输入账号框失去焦点时，检查格式，通过即挂载点击
+	$('#ID').blur(function(){
+		if(!/1[1-9][0-9]{9}$/.test($(this).val()))//将账号输入框改为非正常状态
+			if(window.plus){
+				plus.nativeUI.toast("请输入正确的手机号");
+			}
+	});
+
+	/*  */
+	var sendBtn = $('#sendcode');
+	$('#ID').on('input', function(e) {
+		var phoneNum = $(this).val();
+		if( ! /1[1-9][0-9]{9}$/.test(phoneNum)||sendable == false){
+			sendBtn.attr('disabled', 'disabled');
+			return;
+		}
+		sendBtn.removeClass('waitting').addClass('ready');
+		sendBtn.attr('disabled', false);
+		//配置发送验证码程序
+		sendBtn.unbind('click').bind('click',function(e) {
+			var phoneNum = $("#ID").val();
+			mui.ajax(baseUrl + '/sendCode',{
+				data:{
+					uid : window.plus ? plus.device.uuid : "testAccount",
+					telephone : phoneNum,
+				},
+				type:'post',
+				timeout:10000,
+				success:function(data){
+					if(data.msg == 'ok'){//执行计数，并禁止再次发送
+						sendable = false;
+						codable = true;
+						sendBtn.attr('disabled', 'disabled');
+						plus.nativeUI.toast("45秒后重新发送");
+						sendBtn.removeClass('ready').addClass('waitting');
+						countdown = 45;
+						settime(countdown);
+					}else if(data == 1001){
+						plus.nativeUI.toast("请输入正确的手机号");
+					}else console.log(data);
+				},
+				error : function() {
+					if(window.plus)
+						plus.nativeUI.toast("发送失败，请稍后再重试");
+				}
+			});
+		});
+	});
+	//点击登录验证手机和验证码
+	$('#login').click(function(){
+		if(codable == true && !/[0-9]{4}$/.test($(this).val()))
+		{
+			var telephone = $('#ID').val();
+			var code = $('#code').val();
+			mui.ajax(baseUrl + '/verifyCode',{
+				data:{
+					uid : window.plus ? plus.device.uuid : "testAccount",
+					telephone : telephone,
+					code : code,
+					clientID : clientID
+				},
+				type:'post',
+				timeout:10000,
+				success:function(data){
+					plus.nativeUI.toast("登录成功");
+					/* 验证成功，获得用户信息 */
+					var user = Service.saveToLocal(data.user);
+	
+					var nextWebview;
+					if(!user.nickname){
+						nextWebview = nextPages[0];
+					}else	nextWebview = nextPages[1];
+	
+					setTimeout(function() {
+						nextWebview.show('pop-in', 200);
+					}, 30);
+					plus.webview.currentWebview().hide();
+				},
+				error:function(err){
+					if(err.statusText=='Forbidden'){
+						if(JSON.parse(err.response).error == 1006)
+							plus.nativeUI.toast("验证码错误");
+					}else{
+						console.log(JSON.stringify(err));
+						plus.nativeUI.toast("未知错误");
+					}
+				}
+			});
+		}
+		else if(codable ==false){
+			plus.nativeUI.toast("您还未发送验证码");
+		}
+		else{
+			plus.nativeUI.toast("验证码格式不正确");
+		}
+	});
+	//验证码发送倒计时
+	function settime(countdown)
+	{
+		if (countdown == 0) 
+		{//计数归零，重新挂载验证
+			$('.send-code').find('span').html("发送验证");
+			$('.send-code').removeClass('waitting').addClass('ready');
+			sendable = true;
+			$('.ID').blur();
+		} else {
+			$('.send-code').find('span').html(countdown);
+			countdown--;
+			setTimeout(function() 
+				{//采用递归调用，进行计数
+					settime(countdown);
+				},1000);
+		}
+	}
+	function treaty(){
+		plus.webview.create('page_treaty.html','treaty').show('pop-in',240);
+	}
+	</script>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds Detail</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../css/app_index.css" type="text/css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="../css/page_camera.css" />
+		<style>
+		
+		</style> 
+	</head>
+
+	<body>
+		<div class="page" id="page_camera">
+			<div class="header">
+				<span class="header-left" onclick="back()">
+					<i class="fa fa-angle-left"></i>
+				</span>
+				
+				<span class="header-center header-name">发布作品</span>
+				<span class="header-right next" onclick="next()">下一步</span>
+			</div>
+			<div class="content">
+				<div class="form">
+					<div class="first-row">
+						<div class="img-box" onclick="addPic()">
+
+							<div class="uploadBtn">
+								<span class="fa fa-plus-square-o"></span>
+							</div>
+							<img id="preview"  alt="" />
+						</div>
+						<div id="textArea" class="text-area" contenteditable="true">
+							
+						</div>
+					</div>
+					
+				</div>
+				<div class="slogan">
+					<img src="../img/slogan.png" alt="" />
+				</div>
+			</div>
+		</div>
+
+
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../build/js/service.js"></script>
+	<script>
+	var isPlus = false;
+	var feedDetail, baseFeed, cateSelect;
+	var baseUrl = localStorage.getItem('baseUrl');
+	/* 返回函数	 */
+	var back,next,addPic;
+
+	var isPicLoaded = false;
+	document.addEventListener('plusready',plusReady);
+	
+
+	/* 在dcloud中的初始化函数*/
+	function plusReady() {
+		isPlus = true;
+
+		mui.back = function(){
+			//这一段是为了hack feedDetail在pop-out时，底部页面的卡顿
+			setTimeout(function() {
+				plus.webview.currentWebview().hide('zoom-in', 200);
+			},10);
+		};
+		back = mui.back;
+		
+		next = function(){
+			var textContent = document.getElementById('textArea').innerText.trim();
+			
+			if(!textContent && !isPicLoaded)
+				return plus.nativeUI.toast("请输入至少3个字符, 或选择一幅图片");
+
+			
+			var post = Service.getFeeding();
+			post.content = textContent;
+			Service.setFeeding(post);
+
+			if(!cateSelect)
+				cateSelect = plus.webview.create('page_category_select.html','cateSelect',{top : 0, bottom:0});	
+			cateSelect.show();
+			
+		};
+
+
+		/* 将路径中的图片显示出来 */
+		function showPreview(afterPath, absolutePath) {
+			isPicLoaded = true;
+			plus.io.resolveLocalFileSystemURL(afterPath, function(entry) {
+				entry.file(function(file) {
+					reader = new plus.io.FileReader();
+					reader.onloadend = function(e) {
+						// Get data
+						mui.ajax( baseUrl + '/uploadImage',{
+							type : "post",
+							data : {
+								b64 : e.target.result
+							},
+							success : function(result) {
+								var post = Service.getFeeding();
+								post.url = result.picUrl;
+								Service.setFeeding(post);
+								
+							},
+							error: function(err) {
+								console.log('uploadImage error : ' + err.message);
+							}
+						})
+						document.getElementById('preview').src = absolutePath;
+					};
+					reader.readAsDataURL(file);
+				});
+			},function(err) {
+				console.log('resovle file error : '+ JSON.stringify(err));
+			});
+		}
+
+
+		
+		addPic = function(){
+			
+			// 弹出系统选择按钮框
+			plus.nativeUI.actionSheet( 
+				{
+					title:"选择照片来源",
+					cancel:"取消",buttons:[{title:"选择系统相册"},{title:"拍照"}]}, function(e){
+				if(e.index == 1){
+					plus.gallery.pick(function(path){
+						compress(path, showPreview);
+					},function(e){
+						console.log('cancel');
+					});
+				}else if(e.index == 2){
+					var cmr = plus.camera.getCamera();
+					cmr.captureImage(function(obj){
+						compress(obj, showPreview);
+					},function(err){
+						console.log('cancel');
+					})
+					
+				}
+				} );
+			function compress(path, cb) {
+				var filename = path.split('/');
+				filename = filename[filename.length - 1];
+				var compressPath = "_doc/cachedImage/";
+				
+				plus.zip.compressImage({
+					src : path,
+					dst : compressPath+filename,
+					overwrite : true
+				},function() {
+					console.log("compress success!");
+					var absolutePath = plus.io.convertLocalFileSystemURL(compressPath + filename);
+					cb(compressPath + filename, absolutePath);
+						
+				},function(error) {
+					console.log('compress error');
+					console.log(JSON.stringify(error));
+				});
+			}
+			
+		}
+
+		plus.key.removeEventListener('backbutton');
+		plus.key.addEventListener('backbutton',function(){
+			back();
+		},false);
+		init();
+	}
+	
+	/* 页面初始化  */
+	function init() {
+		/* mui.ajax({
+		   url : "../js/test_data/data_feeds_12345.json",
+		   dataType : "json",
+		   success : function(data){
+		   var feed = ReactDOM.render(
+		   React.createElement(Feed, {feed : data}),
+		   document.getElementById('feed-display')
+		   );
+		   var commentList = ReactDOM.render(
+		   React.createElement(TeacherComments, {list : data.comments}),
+		   document.getElementById('feed-teacher-comments')
+		   );
+		   }.bind(this)
+		   });  */
+	}
+
+	/* 假如当前页面不在plus中应使用当前逻辑 */
+	setTimeout(function() {
+		if(isPlus) return;
+		back = function() {
+			location.href="page_feeds.html";
+		};
+		init();
+	},10);
+	</script>
+</html>

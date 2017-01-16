@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/app_index.css" />
+		<link rel="stylesheet" type="text/css" href="../css/page_news.css" />
+		<style>
+		</style>
+	</head>
+
+	<body id="page_news" class="page">
+		<div class="tab">
+		  	<div class="item" id="tab_strategy">备考攻略</div>
+			<div class="item" id="tab_zixun">艺考资讯</div>
+			<div class="item" id="tab_school">高校追踪</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script>
+	
+	var newsStrategy,newsZixun;
+
+
+	var subpages = ['page_news_strategy.html', 'page_news_zixun.html', 'page_discovery_school.html'];
+	var aniShow = {};
+	var subpage_style = {
+		top:'30px',
+		bottom : '0px'
+	};
+	//估算大致的加载时间,去除splash
+	mui.plusReady(function() {
+		var self = plus.webview.currentWebview();
+		for (var i = 0; i < 3; i++) {
+			var temp = {};
+			var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+			if (i > 0) {
+				sub.hide();
+			}else{
+				temp[subpages[i]] = "true";
+				mui.extend(aniShow,temp);
+			}
+			self.append(sub);
+		}
+		commonFunction();
+	});
+
+	/* setTimeout(function() {
+	   cb();
+	   },500); */
+
+	
+	var currentTab = previousTab = "";
+	var switchTab;
+	function commonFunction(){
+		switchTab = function(tabid, animate){
+
+			animate = animate || 'none';
+			var delay = 1000;
+			previousTab = currentTab;
+			currentTab = tabid;
+
+			if(!currentTab)
+				currentTab = 'tab_strategy';
+			if(previousTab){
+	   			var prevDom = document.getElementById(previousTab);
+	   			prevDom.className = prevDom.className.replace('active','');
+			}
+		   	document.getElementById(currentTab).className += ' active';
+		   	if(currentTab == previousTab) return;
+		   	//切换webview
+
+		   	if(currentTab == 'tab_strategy'){
+		   		plus.webview.show('page_news_strategy.html',"pop-in", delay);
+				plus.webview.hide('page_news_zixun.html');
+				plus.webview.hide('page_discovery_school.html');
+		   	}else if(currentTab == 'tab_zixun') {
+				plus.webview.show('page_news_zixun.html', "pop-in", delay);
+				plus.webview.hide('page_news_strategy.html');
+				plus.webview.hide('page_discovery_school.html');
+			}else if(currentTab == 'tab_school') {
+				plus.webview.show('page_discovery_school.html', animate, delay);
+				plus.webview.hide('page_news_strategy.html');
+				plus.webview.hide('page_news_zixun.html');
+			}
+
+		}
+		switchTab(currentTab);
+		mui('.tab').on('tap', '.item',function(e){
+		   	switchTab(this.id);
+		});
+	}
+	
+	</script>
+
+</html>

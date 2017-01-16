@@ -1,0 +1,306 @@
+#page_info{
+    margin:0;
+    padding:0;
+    witdh:100%;
+    font-family: "Microsoft YaHei";
+    background: rgb(236,236,236);
+    z-index: 1;
+}
+
+#page_info .container{
+    position:absolute;
+    width:100%;
+    height:auto;
+    top:220px;
+    bottom:0;
+    z-index: 3;
+    overflow:auto;
+    background: rgb(236,236,236);
+}
+#page_info .main-content,#page_info .contact-content
+{
+    position: relative;
+    float:left;
+    width:100%;
+    margin-bottom: 7px;
+}
+#page_info .line-column{
+    position:relative;
+    float:left;
+    width:100%;
+    height:45px;
+    line-height:44px;
+    background:white;
+}
+#page_info .line-column:active{
+	background: rgb(208,208,208);
+}
+#page_info .icon{
+    position:relative;
+    float:left;
+    width:25px;
+    height:21px;
+    margin-left:17px;
+    top:11px;
+    background:url(../img/profile-icon.png) no-repeat;
+    background-size: 179px 52px;
+    background-position: 0 0;
+}
+#page_info .invitation .icon{
+    background-position: -152px -29px;
+}
+#page_info .publish .icon{
+    background-position: 0px 0;
+}
+#page_info .comment .icon{
+    background-position: -80px 0;
+}
+#page_info .homepage .icon{
+    background-position: -40px 0;
+}
+#page_info .message .icon{
+    background-position: -1180px 1;
+}
+#page_info .contacts .icon{
+    background-position: -155px 0px;
+}
+#page_info .chat .icon{
+    background-position: 0 -29px;
+}
+#page_info .favour .icon{
+    background-position: -118px -30px;
+}
+#page_info .attention .icon{
+    background-position: -78px -30px;
+}
+#page_info .fans .icon{
+	background-position: -37px -30px;
+}
+#page_info .line-column span{
+    position:relative;
+    float:left;
+    left:3px;
+    width:auto;
+    font-size:14px;
+}
+#page_info .line-column i{
+    position:relative;
+    float:right;
+    margin-right:10px;
+    font-size:30px;
+    top:5px;
+    margin-right: 10px;
+    color:rgb(170,170,170);
+}
+#page_info .line
+{
+    position: relative;
+    float: left;
+    height: 1px;
+    margin-left: 1.204%;
+    width:97.593%;
+    background:rgb(236,236,236);
+    background-border:0;
+}
+#page_info .card-image
+{
+    position:fixed;
+    float:left;
+    width:100%;
+    height:220px;
+    z-index: 1;
+    background-size:100%;
+}
+#page_info .card-gray
+{
+    position:fixed;
+    width:100%;
+    height:220px;
+    z-index: 2;
+    background:black;
+    background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#00aa33), to(#003300));
+    opacity: 0.15;
+}
+#page_info .card
+{
+    position:fixed;
+    float:left;
+    width:100%;
+    height:220px;
+    z-index: 3;
+}
+#page_info .card .editTitle
+{
+    position:relative;
+    width:10%;
+    float:right;
+    height:38px;
+}
+#page_info .card i{
+    position: relative;
+    float:left;
+    margin-left: 14.667px;
+    margin-top: 6px;
+    font-size: 26px;
+    color: white;
+}
+#page_info .card .editTitle i:last-child
+{
+    float:right;
+    margin-right: 14.667px;
+    margin-top:11px;
+    font-size: 20px;
+}
+#page_info .card .head
+{
+    position: relative;
+    height: 72px;
+    width: 72px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:47px;
+}
+.headPortrait
+{
+    position: relative;
+    height: 70px;
+    width: 70px;
+    border-radius: 35px;
+}
+img{
+	 border-radius: 35px;
+}
+.student{
+	margin-top:10px;
+	width:100%;
+	height:10px;
+}
+#page_info .card .head .v
+{
+    position: absolute;
+    z-index: 3;
+    width:20px;
+    height:20px;
+    border-radius:10px;
+    right:3px;
+    bottom:3px;
+    background:url(../img/icon.png)no-repeat;
+    background-size: 454px 827px;
+    background-position:-274px -227px;
+}
+#page_info .card .identity{
+    height:16px;
+    width:39px;
+    line-height: 15px;
+    margin-top:4px;
+    margin-left:auto;
+    margin-right: auto;
+    text-align: center;
+    background:rgb(255,177,57);
+    border-radius: 3px;
+    color:white;
+    font-size: 12px;
+}
+#page_info .card .info
+{
+    position: relative;
+    width:100%;
+    height: 35px;
+    color:white;
+}
+#page_info .card .info .name
+{
+    position: relative;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 3px;
+}
+#page_info .card .info .class
+{
+    position:relative;
+    float:left;
+    font-size: 12px;
+}
+#page_info .card .info .visit{
+    position:relative;
+    float:left;
+    margin-left: 3px;
+    font-size:12px;
+}
+#page_info .card .info .address{
+    margin-right: auto;
+    margin-left: auto;
+    width:60%;
+    text-align: center;
+    font-size: 12px;
+}
+#page_info .card .tab{
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width:100%;
+    margin-top:18px;
+    height:30px;
+    color:white;
+}
+#page_info .card .tab .comment,
+#page_info .card .tab .fans,
+#page_info .card .tab .flowers,
+#page_info .card .tab .favour{
+    position: relative;
+    float:left;
+    width:24.5%;
+    height:30px;
+    border-right: 1px solid white;
+}
+#page_info .card .tab .favour{
+     border-right: 0px;
+}
+.min-tab
+{
+    position: relative;
+    float:left;
+    width:33.1%;
+    height:30px;
+    border-right: 1px solid white;
+}
+.fan
+{
+    border-right: 0px solid white;
+}
+.text
+{
+    font-size: 12px;
+    text-align: center;
+    line-height: 14px;  
+}
+.min-tab 
+#page_info .card .tab .favour{
+    border-right: 0px solid white;
+}
+.num{
+    font-size: 12px;
+    text-align: center;
+    line-height: 20px;
+}
+.margin
+{
+    margin-top: 16px;
+}
+.rank
+{
+    position: absolute;
+    bottom:4px;
+    right:4px;
+    height:10px;
+    width:20px;
+    border-radius:3px;
+    background:rgb(255,177,60);
+    text-align: center;
+    color:white;
+    font-size: 9px;
+    line-height: 12px;
+}
+.student{
+	margin-top: 0px;
+}

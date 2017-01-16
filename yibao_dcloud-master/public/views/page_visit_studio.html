@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_homepage.css" />
+		<style>
+			body{
+				margin:0;
+				padding:0;
+			}
+		</style>
+	</head>
+		
+	<body>
+  		<div id="page_homepage"></div>
+	</body>
+	<script src="../js/mui.js"></script> 
+	<script src="../bower_components/react/react.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/HomepageStudio.js"></script>
+	<script type="text/javascript" src="../build/js/PanelMe.js"></script>
+	<script src="../build/js/service.js"></script>
+	<script>
+	var user;
+	function getUser(user){
+		user = user;
+		document.addEventListener('plusready', plusReady);
+	}
+	function plusReady(){
+		ReactDOM.render(
+  		React.createElement(HomepageStudio,{user:user}),
+  		document.getElementById('page_homepage')
+  		);
+  		plus.webview.currentWebview().show(); 
+	}
+	</script>
+</html>

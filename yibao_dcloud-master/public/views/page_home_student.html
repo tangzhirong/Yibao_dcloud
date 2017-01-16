@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>HOME</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_homepage.css" />
+		<style>
+		body{padding:0;margin:0;}
+		</style>
+	</head>
+
+	<body>
+  		<div id="page_homepage"></div>
+	</body>
+	<script src="../js/mui.min.js"></script> 
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/PanelMe.js"></script>
+	<script type="text/javascript" src="../build/js/service.js"></script>
+	<script type="text/javascript" src="../build/js/HomepageStudent.js"></script>
+	<script type="text/javascript" src="../build/js/works.js"></script>
+	<script type="text/javascript" src="../build/js/Publish.js"></script>
+	
+	<script>
+	var user,works;
+	user = Service.getLocalUser();
+
+
+	console.log('current Hash : ' + location.hash);
+	if(location.hash.replace('#','')){
+		/* 如果是查看别的用户 */
+		var userid = location.hash.split('/')[2];
+		if(userid != user._id)
+		{
+			Service.getOtherUser(userid, function(err, otheruser) {
+			var userHome = ReactDOM.render(
+				React.createElement(HomepageStudent,{user : otheruser, feedClickHandler : feedClickHandler}),
+				document.getElementById('page_homepage')
+				);
+			});
+		}else{
+			/* 自己 */
+			console.log('[page_home_student.html]  homepage Student');
+			var userHome = ReactDOM.render(
+				React.createElement(HomepageStudent,{user : user, feedClickHandler : feedClickHandler}),
+				document.getElementById('page_homepage')
+			);
+		}
+	}
+	document.addEventListener('plusready', function(){
+		plusReady();
+	});
+	function feedClickHandler(){
+			plus.nativeUI.showWaiting( "加载中" );
+			var feedDetail = plus.webview.getWebviewById('feedDetail');
+			feedDetail.evalJS("setDataUrl('"+baseUrl+"/FeedById/"+this._id+"')")
+				setTimeout(function(){
+					feedDetail.show('pop-in',200, function() {
+						plus.nativeUI.closeWaiting();
+					});
+				},200);
+	}
+	function plusReady(){
+		plus.webview.currentWebview().show();
+	}
+
+	mui('#page_homepage').on('tap', '.work', function(e) {
+		var feedid = this.id;
+		plus.nativeUI.showWaiting( "加载中" );
+		var feedDetail = plus.webview.getWebviewById('feedDetail');
+		feedDetail.evalJS("update('"+feedid+"')");
+		setTimeout(function(){
+			feedDetail.show('pop-in',200, function() {
+				plus.nativeUI.closeWaiting();
+			});
+		},300);
+	});
+	
+	</script>
+</html>

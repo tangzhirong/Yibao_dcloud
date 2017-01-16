@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>身份选择</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../css/app_index.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../css/page_selectIdentity.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="../build/js/service.js"></script>
+		<style>
+			*{
+				padding:0;
+				margin:0;
+			}
+			.hidden{
+				display: none;
+			}
+		.contain.active, .grade.active{
+			background : rgb(208,208,208);
+			color : white;
+		}
+		</style>
+	</head>
+	<body class="page">
+		<header class="header mui-bar mui-bar-nav" id="feedHeader">
+			<span class="header-left" onClick="backPage()"><i class="fa fa-angle-left"></i></span>
+			<span class="header-center header-name">身份选择</span>
+			<span class="header-right" style="color:rgb(71,176,199)" onClick="nextPage()">下一步</span>
+		</header>
+  		<div id="page_selectIdentity">
+		<!--选择身份-->
+			<div class="varitied">
+				<div class="contain" onclick="selectIdentity(this,'STUDENT')">
+					<div class="student view">
+					</div>
+					<div class="directive">
+						<i class="fa fa-caret-down"></i>
+					</div>
+					
+				</div>
+				<div class="contain" onclick="selectIdentity(this,'TEACHER')">
+					<div class="teacher view">
+					</div>
+				</div>
+				<div class="contain" onclick="selectIdentity(this,'STUDENT_OTHER')">
+					<div class="other view">
+					</div>
+				</div>
+		</div> 
+		<!--当学生身份时显示-->
+		<div class="content" id = 'content'>
+			<div class="column">
+				<div class="grade ing" onclick="selectIdentity(this,'STUDENT', 'ING')">艺考中</div>
+				<div class="grade next" onclick="selectIdentity(this,'STUDENT', 'BEFORE')">艺考前</div>
+				<div class="grade ed" onclick="selectIdentity(this,'STUDENT'), 'AFTER'">艺考后</div>
+			</div>
+		</div>
+	</body>
+	<script>
+	var user;
+	user = Service.getLocalUser();
+	
+	function selectIdentity(elem, role, stage){
+		for(var i = 0; i < elem.parentNode.children.length; i++) {
+			var item = elem.parentNode.children[i];
+			var originClass = item.className.replace(' active', "");
+			
+			if(elem != item)
+				item.className = originClass;
+			else
+				item.className += ' active';
+		}
+		if(role == "STUDENT_OTHER"){
+			document.getElementById('content').style.display = 'none';
+		}else{
+			if(role == "STUDENT"){
+				document.getElementById('content').style.display = '';
+			}else
+			document.getElementById('content').style.display = 'none';
+		}
+		
+		if(stage)
+			user.stage = stage;
+		if(role)
+			user.role = role;
+
+		if(/STUDENT/.test(role))
+			user.role = 'STUDENT';
+		
+
+	}
+	selectIdentity(document.querySelector('.varitied .contain'), 'STUDENT');
+	function backPage(){
+		plus.webview.currentWebview().hide('slide-out-right',240);
+	}
+
+	var nextPage;
+	document.addEventListener('plusready', function() {
+		nextPage = plus.webview.create('page_basic_info.html','basic_info');
+	});
+
+	function nextPage(){
+		if(!user.role)
+			return plus.nativeUI.toast('请选择您的身份');
+		Service.saveToLocal(user);
+		nextPage.show('slide-in-right',240);
+		plus.webview.currentWebview().hide('slide-out-right',240);
+	}
+	</script>
+</html>
+

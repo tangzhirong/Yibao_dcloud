@@ -1,0 +1,80 @@
+[
+  {
+    "_id" : "23244780",
+    "profile" : "http://www.touxiang.cn/uploads/20131114/14-065802_226.jpg",
+    "nickname"  :"张重重",
+    "identity" : "teacher",
+    "district" : "北京",
+    "city" : "北京",
+    "organization" : "中央美术学院",
+    "grade" : "画室老师",
+    "isFollow" : true,
+    "comment" : 2000,
+    "flowerNum" : 1090,
+    "fansnum" : 2000
+  },
+  {
+    "_id" : "23244779",
+    "profile" : "http://www.touxiang.cn/uploads/20131114/14-065802_226.jpg",
+    "nickname"  :"刘习文",
+    "identity" : "teacher",
+    "district" : "北京",
+    "city" : "北京",
+    "organization" : "朝恒美术学院",
+    "grade" : "画室老师",
+    "isFollow" : true,
+    "comment" : 2000,
+    "flowerNum" : 1000,
+    "fansnum" : 1900
+  },
+  {
+    "_id" : "23244776",
+    "profile" : "http://www.touxiang.cn/uploads/20131114/14-065802_226.jpg",
+    "nickname"  :"Allsa0516",
+    "identity" : "student",
+    "isFollow" : false,
+    "rank" : 2,
+    "province" : "山西",
+    "city" : "临汾",
+    "grade" : "高二",
+    "follownum" : 100
+  },
+  {
+    "_id" : "23244778",
+    "profile" : "http://www.touxiang.cn/uploads/20131114/14-065802_226.jpg",
+    "nickname"  :"刘习文",
+    "identity" : "teacher",
+    "district" : "北京",
+    "city" : "北京",
+    "organization" : "朝恒美术学院",
+    "grade" : "画室老师",
+    "isFollow" : false,
+    "comment" : 2000,
+    "flowerNum" : 900,
+    "fansnum" : 1800
+  },
+  {
+    "_id" : "23244777",
+    "profile" : "http://www.touxiang.cn/uploads/20131114/14-065802_226.jpg",
+    "nickname"  :"Allsa0516",
+    "identity" : "student",
+    "isFollow" : true,
+    "rank" : 1,
+    "province" : "山西",
+    "city" : "临汾",
+    "grade" : "高三",
+    "follownum" : 298
+  },
+  {
+    "_id" : "23244775",
+    "profile" : "http://www.touxiang.cn/uploads/20131114/14-065802_226.jpg",
+    "nickname"  :"Allsa0516",
+    "identity" : "student",
+    "isFollow" : false,
+    "rank" : 3,
+    "province" : "山西",
+    "city" : "临汾",
+    "grade" : "高一",
+    "follownum" : 200
+  }
+]

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/app_index.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/page_collection.css"/>
+		<style>
+		body{
+			padding:0;
+			margin:0;
+		}
+		.mod-dropdownlist .dropdown-select .dropdown-icon{
+			height:47px;
+		}
+		</style>
+	</head>
+
+	<body class="page">
+  		<div id="page_title">
+			<header class="header mui-bar mui-bar-nav">
+				<span class="header-left" onClick="backPage()"><i class="fa fa-angle-left"></i></span>
+				<span class="header-center header-name">我的收藏</span>
+				<span class="header-right"></span>
+			</header>
+  		</div>
+		<!-- <div class="select hidden" style="position:absolute;width:100%;top:39px;">
+		     <select id="select" onchange="test(this.options[this.options.selectedIndex].value)">			
+		     <option value="5" selected="selected">全部收藏</option>
+		     <option value="1">精彩画作</option>
+		     <option value="2">文章资讯</option>
+		     </select>
+		     </div> -->
+		<div id="collection"></div>
+	</body>
+	<script src="../js/mui.min.js"></script> 
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- <script src="../bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script> -->
+	<script src="../build/js/meCollection.js" type="text/javascript"></script>
+	<script src="../build/js/service.js" type="text/javascript"></script>
+
+	<script>
+	document.addEventListener('plusready',plusReady);
+	function plusReady(){
+		mui.back = function(){
+			plus.webview.currentWebview().close('slide-out-right',240);
+		};
+	}
+	var fanslistObj = ReactDOM.render(
+		React.createElement(CollectionList),
+		document.getElementById('collection')
+	);
+	/* var ddl_picture = DropDownList.create({
+	   select:$('#select'),
+	   attrs:{
+	   column :5,
+	   width :200
+	   }
+	   });
+	   $('.select.hidden').removeClass('hidden');
+	   function test(v) {
+	   if(v!=5) {				
+	   $("#"+v).removeClass("hidden");
+	   $("#"+v).siblings().addClass("hidden");
+
+	   }else {
+	   $("#1,#2,#3,#4").removeClass("hidden");
+	   }
+	   } */
+
+	function backPage(){
+		plus.webview.currentWebview().close('slide-out-right',240);
+	};
+
+	</script>
+</html>

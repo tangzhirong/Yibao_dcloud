@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<style>
+		body{
+			padding:0;
+			margin:0;
+		}
+		.title{
+			position:relative;
+			text-align: center;
+			height:38px;
+			z-index: 999;
+			background:rgb(247,247,247);
+			-webkit-box-shadow:0 1px 2px #c7c7c7;  
+			box-shadow:0 1px 2px #c7c7c7;
+		}
+		.title_back{
+			position:relative;
+			display: inline-block;
+			float:left;
+			height:38px;
+			width: 38px;
+			color:rgb(129,129,129);
+		}
+		
+		.title_back i{
+			position:relative;
+			float: left;
+			margin-left:12px;
+			line-height: 38px;
+			font-size: 26px;
+		}
+		.title_back:active{
+			background:rgb(236,236,236);
+			color:rgb(255,177,57);
+		}
+		.title_name{
+			position:relative;
+			height:38px;
+			left:-10px;
+			line-height: 38px;
+			font-size: 18px;
+			color:rgb(55,55,55);
+		}
+		.tab{
+			height:30px;
+			background:white;
+			border-bottom: 1px solid rgb(223,223,233);
+		}
+		.tab .active{
+			border-bottom: 2px solid rgb(71,176,199);
+			color:rgb(71,176,199);
+		}
+		.tab>div{
+			color:rgb(172,172,172);
+			float:left;
+			width: 50%;
+			border-bottom: 0px solid rgb(71,176,199);
+		}
+		#tabTeacher,#tabStudio,#tabMaster,#tabSchool{
+			height:28px;
+			line-height:28px;
+			font-size:13.333px;
+			text-align:center;
+		}
+
+		</style>
+	</head>
+
+	<body>
+  		<div id="page_title">
+  			<div class="title">
+				<div class="title_back" onClick="backPage()">
+					<i class="fa fa-angle-left"></i>
+				</div>
+				<span id="title" class="title_name">
+					我的关注
+				</span>
+			</div>
+			<div class="tab">
+				<div class="item" id="tabTeacher">老师</div>
+				<div class="item" id="tabMaster">同学</div>
+			</div>
+  		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<script src="../build/js/service.js"></script>
+	<script>
+	
+	mui.plusReady(function(){
+		var suggestList = plus.webview.getWebviewById('suggest');
+		if(suggestList)
+			isFollow = true;
+		
+		plus.nativeUI.showWaiting("加载中");
+		user = Service.getLocalUser();
+		mui.init({
+			subpages:[{
+				url:'page_follow_teacher.html',
+				id:'followList',
+				styles:{
+					top:'68px',
+					bottom:'0px'
+				},
+				show : {
+					autoShow : false
+				}
+			}]
+	        });
+	});
+	var currentTab = 'tabTeacher';
+	var previousTab = currentTab;
+	function switchTab(tabid){
+		previousTab = currentTab;
+		currentTab = tabid;
+		var prevDom = document.getElementById(previousTab);
+		prevDom.className = prevDom.className.replace('active','');
+		document.getElementById(currentTab).className += ' active';
+		if(currentTab == previousTab) return;
+		//切换webview
+		if(currentTab == 'tabTeacher'){
+		   	mui.fire(plus.webview.getWebviewById('followList'), 'clickTeacher');
+		}else if(currentTab == 'tabMaster'){
+		   	mui.fire(plus.webview.getWebviewById('followList'), 'clickMaster');
+		}
+	}
+	switchTab(currentTab); 
+	mui('.tab').on('tap', '.item',function(e){
+		switchTab(this.id);
+	});
+
+
+	
+	function backPage(){
+		plus.webview.currentWebview().close('slide-out-right',240);
+	}
+	</script>
+</html>

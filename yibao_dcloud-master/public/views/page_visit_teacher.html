@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_homepage.css" />
+		<style>
+		body{padding:0;margin:0;}
+		</style>
+	</head>
+
+	<body>
+  		<div id="page_homepage"></div>
+	</body>
+	<script src="../js/mui.js"></script> 
+	<script src="../bower_components/react/react.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/PanelMe.js"></script>
+	<script type="text/javascript" src="../build/js/service.js"></script>
+	<script type="text/javascript" src="../build/js/VisitTeacher.js"></script>
+	
+	<script>
+	var works;
+	var user=null;
+	function getUser(user){
+		user = user;
+		document.addEventListener('plusready', function(){
+		plusReady();
+		});
+	}
+	function plusReady(){
+		var alltags = Service.getTags();
+		Service.getWorks(user,function(data){
+			works = data.works;
+		});
+		ReactDOM.render(
+			React.createElement(HomepageTeacher,{user : user, works : works, alltags :　alltags}),
+			document.getElementById('page_homepage')
+		);
+		plus.webview.currentWebview().show();
+	}
+	</script>
+</html>

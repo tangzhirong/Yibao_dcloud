@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>followStudio</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_follow.css" />
+	</head>
+
+	<body>
+	 	<div id="tab2">
+		  <div id="page-studio-content"></div>
+		</div>
+	</body>
+	<script src="../js/mui.js"></script> 
+	<script src="../bower_components/react/react.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Discovery组件的 js -->
+	<script type="text/javascript" src="../build/js/FollowStudio.js"></script>
+	<script>
+  		var teacherlistObj = ReactDOM.render(
+  		React.createElement(List, {follow : false}),
+  		document.getElementById('page-studio-content')
+  		);
+	</script>
+</html>

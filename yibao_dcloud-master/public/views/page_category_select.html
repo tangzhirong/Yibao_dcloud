@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Cate select</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../css/app_index.css" type="text/css" media="screen" />
+		<style>
+		.header .next {
+			font-size: 17px;
+			color: rgb(71,169,199);
+		}
+		.content{
+			font-size:0;
+			padding-top : 20px;
+		}
+		.cateWrap{
+			display: inline-block;
+			width: 33%;
+			font-size:14px;
+		}
+		.cateBox{
+			text-align: center;
+			width: 72px;
+			height: 49px;
+			background: #ECECEC;
+			line-height: 49px;
+			border: #B7B7B7 1px solid;
+			margin:auto;
+		}
+		.cateBox.active{
+			border : 2px solid rgb(71,169,199);
+			box-shadow:0 0 30px 10px rgba(255,255,255,.7);
+		}
+		</style> 
+	</head>
+
+	<body>
+		<div class="page" id="page_camera">
+			<div class="header">
+				<span class="header-left" onclick="back()">
+					<i class="fa fa-angle-left"></i>
+				</span>
+				
+				<span class="header-center header-name">选择分类</span>
+				<span class="header-right next" onclick="next()">发布</span>
+			</div>
+
+			<div class="content">
+				<div class="cateWrap">
+					<div class="cateBox active" onClick="select(this)" id="5643424a95804f136d5adeb2">色彩</div>
+				</div>
+				<div class="cateWrap">
+					<div class="cateBox" onClick="select(this)" id="5643424a95804f136d5adeb3">素描</div>
+				</div>
+				<div class="cateWrap">
+					<div class="cateBox" onClick="select(this)" id="56555a3c65436f3c714f8246">速写</div>
+				</div>
+			</div>
+
+			
+		</div>
+
+	</body>
+	<script type="text/javascript" src="../js/mui.min.js"></script>
+	<script type="text/javascript" src="../build/js/service.js"></script>
+	<script type="text/javascript">
+	
+	var baseUrl = localStorage.getItem('baseUrl');
+	var cateSelect, pageCamera;
+
+	document.addEventListener('plusready', function(e) {
+		cateSelect = plus.webview.getWebviewById('cateSelect');
+		pageCamera = plus.webview.getWebviewById('page_camera.html');
+	});
+	mui.back = function() {
+		cateSelect.hide();
+	};
+	
+	back = function() {
+		mui.back();
+	}
+	function select(obj) {
+		var list = document.getElementsByClassName('cateBox');
+		for(var i = 0; i < list.length; i++) {
+			var elem = list[i];
+			if(/active/.test(elem.className))
+				elem.className = elem.className.replace('active', '');
+		}
+		obj.className += " active";
+		var tag = obj.id;
+		var postFeed = Service.getFeeding();
+		postFeed.tag = tag;
+		Service.setFeeding(postFeed);
+	}
+
+	/* 给默认值 */
+	var postFeed = Service.getFeeding();
+	postFeed.tag = "56555a3c65436f3c714f8246";
+	Service.setFeeding(postFeed);
+	
+	function next() {
+		var postFeed = Service.getFeeding();
+		console.log(JSON.stringify(postFeed));
+		mui.ajax(baseUrl + "/publishFeed", {
+			data :{
+				picUrl : postFeed.url,
+				content : postFeed.content,
+				tag : postFeed.tag
+			},
+			type: "post",
+			success : function(result) {
+				if(window.plus)
+					plus.nativeUI.toast('发布成功');
+				postFeed = {};
+				Service.setFeeding(postFeed);
+
+				pageCamera.close('pop-out');
+				cateSelect.close('pop-out');
+				if(window.plus){
+					var feedList = plus.webview.getWebviewById('page_feeds.html');
+					feedList.evalJS('updateList()');
+					
+				}
+			},error:function() {
+				if(window.plus){
+					plus.nativeUI.toast('发布出现错误，请重新尝试');	
+				}
+			}
+		})
+	}
+	
+	</script>
+</html>

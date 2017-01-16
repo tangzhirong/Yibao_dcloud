@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css" />
+		<style>
+			*{
+				padding:0;
+				margin:0;
+			}
+			body{
+				padding: 0;
+				margin: 0;
+				background;rgb(236,236,236);
+			}
+			.container{
+				position:relative;
+				float:left;
+				height:auto;
+				width:100%;
+			}
+			.rect{
+				position: relative;
+				display: inline-block;
+				width: 60px;
+				height: 60px;
+				margin-left:30px;
+				background: white;
+				text-align: center;
+				
+			}
+			.rect:active{
+				background:rgb(236,236,236);
+			}
+			span{
+				position: relative;
+				color:rgb(208,208,208);t
+				font-size: 10px;
+				top:16px;
+			}
+			.right{
+				float:right;
+				margin-right:30px;
+			}
+			.rectImg{
+				float:left;
+				position:relative;
+				display: inline-block;
+				width:48.5%;
+				margin-left:1%;
+				height:163px;
+				background:white;
+			}
+			img{
+				margin-top:3px;
+			}
+			.block{
+				height:160px;
+				float:left;
+				width:100%;
+				padding-top:20px;
+				position: relative;
+				background:white;
+			}
+			.fa-stack{
+				position: absolute;
+				right:10px;
+				top:10px;
+				color: rgb(255,60,80);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="updateimg"></div>
+	</body>
+	<script src="../js/mui.js"></script>
+		<script src="../bower_components/react/react.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<script src="../build/js/service.js"></script>
+	<script src="../build/js/UpdateImage.js"></script>
+	<script>
+	
+	document.addEventListener('plusready', plusReady);
+	var user = null;
+	var lists = [];
+	document.addEventListener('plusready',plusReady)
+	function plusReady(){
+		user = Service.getLocalUser();
+		var id = plus.webview.currentWebview().id;
+		var title = "上传照片";
+		var right = "全部上传";
+		plus.webview.getWebviewById('actionTitle').evalJS("setInfo('"+title+"','"+right+"','"+id+"')");
+		ReactDOM.render(
+		React.createElement(UpdateImg),
+		document.getElementById('updateimg'));
+	};
+	function backPage(){
+		plus.webview.currentWebview().close();
+	}
+	function nextPage(){
+		plus.webview.currentWebview().close();
+		Service.update(path,url);
+	}
+	</script>
+</html>

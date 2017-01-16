@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" href="../css/page_prelogin.css" type="text/css" media="screen" />
+		<style>
+			*{
+				margin:0;
+				padding:0;
+			}
+		</style>
+	</head>
+	<script src="../js/mui.js"></script>
+	<script src="../bower_components/react/react.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<script>
+	var login;
+	document.addEventListener('plusready',plusReady);
+	function plusReady(){
+		login = plus.webview.create("page_login.html",'login',{top:"0px",bottom:"0px",width:"100%"});
+	}
+	function go(){
+			login.show('pop-in', 240);
+			plus.webview.currentWebview().close;
+	}
+	</script>
+	<body>
+		<div id="page_prelogin">
+			<div class="TM">
+			</div>
+			<div class="icon">
+			</div>
+			<div class="slogan">
+			</div>
+			<div class="login-contain">
+				<div class="login" onclick="go()">
+					<span>登&nbsp录/注&nbsp册</span>
+				</div>
+			</div>
+			<div class="credit">
+				<span class="credit-text">登录表示同意</span>
+				<span class="credit-agreement">用户协议</span>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../css/app_index.css" />
+		<!-- <link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css"> -->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+		html,
+		body {
+			background-color: #efeff4;
+		}
+		@font-face {font-family: "mycustomFont";
+			src: url('../fonts/custom.eot'); /* IE9*/
+			src: url('../fonts/custom.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			url('../fonts/custom.woff') format('woff'), /* chrome, firefox */
+			url('../fonts/custom.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+			url('../fonts/custom.svg#iconfont') format('svg'); /* iOS 4.1- */
+		}
+
+		.customfont {
+			font-family:"mycustomFont" !important;
+			font-size:16px;
+			font-style:normal;
+			-webkit-font-smoothing: antialiased;
+			-webkit-text-stroke-width: 1px;
+			-moz-osx-font-smoothing: grayscale;
+		}
+		.icon-ufo:before { content: "\e614"; }
+		.item.active .icon-faxian1:before { content: "\e607"; }
+		.item.active .icon-wodenan:before { content: "\e604"; }
+		.item.active .icon-dongtai:before { content: "\e603"; }
+		.item.active .icon-gonglve1:before { content: "\e601"; }
+
+		/* Inactive */
+		.icon-wodenan:before { content: "\e605"; }
+		.icon-gonglve1:before { content: "\e600"; }
+		.icon-dongtai:before { content: "\e602"; }
+		.icon-faxian1:before { content: "\e606"; }
+
+		.mui-bar,.mui-title{
+			height: 38px;
+			line-height : 40px;
+			color: rgba(54,54,54);
+			font-size: 18px;
+		}
+		.btn-right{
+			float: right;
+			display: inline-block;
+			font-size : 21px !important;
+			line-height:38px;
+			top : 1px;
+			right: 8px;
+			position: relative;
+			color: rgb(90,90,90);
+			padding:0 !important;
+		}
+		.mui-bar-nav .mui-icon-contact{
+			line-height:38px;
+			color: rgb(90,90,90);
+			padding: 0 15px !important;
+			font-size: 26px;
+		}
+		.btn-right:active{
+			color: rgb(71, 176, 199);
+		}
+		.menu{
+			position: relative;
+			float:left;
+			width:38px;
+			height:38px;
+			line-height: 38px;
+			font-weight: 400;
+			text-align: center;
+		}
+		.menu:active{
+			background: rgb(208,208,208);
+		}
+		.menu span{
+			font-size: 20px;
+			position:relative;
+			
+		}
+
+
+		
+		@font-face {font-family: "iconfont";
+			src: url('../fonts/iconfont.eot'); /* IE9*/
+			src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			url('../fonts/iconfont.woff') format('woff'), /* chrome, firefox */
+			url('../fonts/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+			url('../fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+		}
+
+		.iconfont {
+			font-family:"iconfont" !important;
+			font-size:16px;
+			font-style:normal;
+			-webkit-font-smoothing: antialiased;
+			-webkit-text-stroke-width: 0.2px;
+			-moz-osx-font-smoothing: grayscale;
+		}
+		.icon-personalcenter:before { content: "\e600"; }
+		.icon-plus:before { content: "\e601"; }
+		.icon-iconfontuser1:before { content: "\e602"; }
+		.icon-fuwumendian:before { content: "\e603"; }
+		.icon-552cc1fc7c4c5:before { content: "\e604"; }
+		.icon-552cc3cb400e9:before { content: "\e605"; }
+		.icon-552cc230b663d:before { content: "\e606"; }
+		.icon-552cc538f3a3f:before { content: "\e607"; }
+		.icon-552cc14536532:before { content: "\e608"; }
+		.icon-552cd52eeea1e:before { content: "\e609"; }
+		.icon-552dbf766256b:before { content: "\e60a"; }
+		.icon-552cd58e82846:before { content: "\e60b"; }
+		.icon-552cdf5db82ae:before { content: "\e60c"; }
+
+		
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="menu" style="color:rgb(71, 176, 199)">
+				<span class="iconfont icon-personalcenter"></span> 
+			</a>
+			<h1 id="title" class="mui-title">动态</h1>
+			<a class="btn-right iconfont icon-plus" style="color:rgb(71, 176, 199)">  </a>
+		</header>
+		<div class="bottom-menu">
+			<div class="item active" id="tabFeed" href="page_feeds.html">
+				<i class="customfont icon-dongtai"></i>
+				<span class="text">动态</span></div>
+			<!-- <div class="item camera" id="tabCamera" href="page_camera.html">
+			     <i class="fa fa-camera"><span class="text hidden">发布点评</span></i>
+			     </div> -->
+			<div class="item" id="tabNews" href="page_news.html">
+				<i class="customfont icon-gonglve1"></i>
+				<span class="text">攻略</span></div>
+			<div class="item" id="tabDiscovery" href="page_discovery_teacher.html">
+				<i class="customfont icon-faxian1"></i>
+				<span class="text">名师</span></div>
+			<!-- <div class="item" id="tabMe" href="page_me.html">
+			     <i class="customfont icon-wodenan"></i>
+			     <br/><span class="text">我的</span></div> -->
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		//mui初始化
+		mui.init();
+		var subpages = ['page_feeds.html', 'page_news.html','page_camera.html','page_discovery_teacher.html'];
+		/* 		var subpages = ['page_feeds.html']; */
+		var subpage_style = {
+			top: '39px',
+			bottom: '53px'
+		};
+		
+		var aniShow = {};
+		var openMenu, closeMenu, isInTransition = false, showMenu = false, menu;
+		var main;
+		var firstBackTap = true;
+		//创建子页面，首个选项卡页面显示，其它均隐藏；
+		mui.plusReady(function() {
+			main = plus.webview.currentWebview();
+			mui.back = function(){				
+				if(showMenu)
+					return closeMenu();
+				if(firstBackTap){
+					firstBackTap = false;
+					plus.nativeUI.toast('再按一次退出应用');
+					setTimeout(function() {
+						firstBackTap = true;
+					},2000);
+				}else{
+					plus.runtime.quit();
+				}
+			}
+
+			var self = plus.webview.currentWebview();
+			for (var i = 0; i < 4; i++) {
+				var temp = {};
+				if(i==2)
+					var sub = plus.webview.create(subpages[i], subpages[i], {top : 0,bottom:0});
+				else
+					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+				
+				if (i > 0) {
+					sub.hide();
+				}else{
+					temp[subpages[i]] = "true";
+					mui.extend(aniShow,temp);
+				}
+				if(i!=2)
+					self.append(sub);
+			}
+			setTimeout(function() {
+				menu = mui.openWindow({
+					id: 'main-menu.html',
+					url: 'main-menu.html',
+					styles: {
+						left: 0,
+						width: '70%',
+						zindex: -1
+					},
+					show: {
+						aniShow: 'none'
+					}
+				});
+			}, 500);
+
+
+			openMenu = function() {
+				if(isInTransition)
+					return;
+				if (!showMenu) {
+
+					
+					//侧滑菜单处于隐藏状态，则立即显示出来；
+					isInTransition = true;
+					/* menu.setStyle({
+					   mask: 'rgba(0,0,0,0)'
+					   }); //menu设置透明遮罩防止点击 */
+					menu.show('none', 0, function() {
+						//主窗体开始侧滑并显示遮罩
+						main.setStyle({
+							mask: 'rgba(0,0,0,0)',
+							left: '70%',
+							transition: {
+								duration: 150
+							}
+						});
+						mui.later(function() {
+							isInTransition = false;
+							menu.setStyle({
+								mask: "none"
+							}); //移除menu的mask
+						}, 160);
+						showMenu = true;
+					});
+				}
+			};
+
+			closeMenu = function() {
+				if (isInTransition) {
+					return;
+				}
+				if (showMenu) {
+					//关闭遮罩；
+					//主窗体开始侧滑；
+					isInTransition = true;
+					main.setStyle({
+						mask: 'none',
+						left: '0',
+						transition: {
+							duration: 200
+						}
+					});
+					showMenu = false;
+					//等动画结束后，隐藏菜单webview，节省资源；
+					mui.later(function() {
+						isInTransition = false;
+						menu.hide();
+					}, 300);
+				}
+			};
+			main.addEventListener('maskClick', closeMenu);
+
+
+			window.addEventListener("menu:close", closeMenu);
+			window.addEventListener("menu:open", openMenu);
+
+
+			console.log('Binding push click and receive');
+
+			plus.push.addEventListener( "receive", function ( msg ) {
+				// 分析msg.payload处理业务逻辑
+				/* console.log('received', msg);
+				   alert( "You received: " + msg.content ); */
+			}, false ); 
+			
+			plus.push.addEventListener( "click", function ( msg ) {
+				// 分析msg.payload处理业务逻辑
+				/* console.log('clicked', msg);
+				   alert( "You clicked: " + msg.content ); */
+			}, false ); 
+
+		});
+		
+		//当前激活选项
+		var prevTab = "";
+		var activeTab = subpages[0];
+		var title = document.getElementById("title");
+		
+		//选项卡点击事件
+		mui('.bottom-menu').on('tap', '.item', function(e) {
+			var targetTab = this.getAttribute('href');
+			switchTab(targetTab);
+		});
+
+		function switchTab(tabid) {
+
+			var thisObj = document.querySelector('[href="'+tabid+'"]');
+			targetTab = tabid;
+			if(targetTab == 'page_camera.html'){
+				plus.webview.show(targetTab);
+				return true;
+			}			
+			if (targetTab == activeTab) return;
+
+			if(targetTab != 'page_feeds.html')
+				mui('.btn-right')[0].className += " hidden";
+			else 
+				mui('.btn-right')[0].className = "btn-right iconfont icon-plus";
+			
+			prevTab = activeTab;
+			
+			if(prevTab){
+				var prevObj = document.querySelector('[href="'+prevTab+'"]');
+				prevObj.className = "item";
+			}
+			
+			thisObj.className += " active";
+			
+			//更换标题
+			title.innerHTML = thisObj.querySelector('.text').innerHTML;
+			
+			//显示目标选项卡
+			if(mui.os.ios||aniShow[targetTab]){
+				plus.webview.show(targetTab);
+			}else{
+				var temp = {};
+				temp[targetTab] = "true";
+				mui.extend(aniShow,temp);
+				plus.webview.show(targetTab,"none",300);
+			}
+			
+			//隐藏当前;
+			plus.webview.hide(activeTab);
+			//更改当前活跃的选项卡
+			activeTab = targetTab;
+		}
+
+		
+		mui('header').on('tap','.btn-right', function(e) {
+			var pageName = 'page_camera.html';
+			
+			var page = mui.openWindow({
+				id: pageName,
+				url: pageName,
+				styles: {top:0,bottom:0},
+				show: {
+					aniShow: "zoom-fade-out",
+					autoShow : true,
+					duration : 300
+				},
+				waiting: {
+					autoShow: false
+				}
+			});
+
+		}).on('tap', '.menu', function(e) {
+			openMenu();
+		});
+		
+
+		
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,136 @@
+#page_getComment{
+	width:100%;
+	position: relative;
+	background: rgb(236,236,236);
+	float:left;
+	font-family: "微软雅黑";
+}
+.column{
+	position: relative;
+	width:100%;
+	height:auto;
+	background: white;
+	margin-bottom: 1px;
+}
+.column-text{
+	position: relative;
+	float: left;
+	width:100%;
+	height:auto;
+}
+.head-portrait{
+	position:relative;
+	float:left;
+	width:52px;
+	height:52px;
+	margin-top: 8px;
+	margin-left: 19px;
+}
+.head-img{
+	position: relative;
+	float:left;
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	background: url(../img/head.jpg) no-repeat;
+	background-size: 100%;
+}
+.class{
+	position: absolute;
+	bottom:0;
+	right:0;
+	height:9px;
+	width:18px;
+	border-radius:2px;
+	background:rgb(255,177,60);
+	text-align: center;
+	color:white;
+	font-size: 6px;
+	line-height:12px;
+}
+.notice{
+	position: absolute;
+	top:0;
+	left:0;
+	width:10px;
+	height:10px;
+	border-radius: 50%;
+	background:rgb(235,37,37);
+}
+.info{
+	position: relative;
+	float: left;
+	margin-left: 6px;
+	margin-top: 14px;
+	width:auto;
+	height:auto;
+}
+.info-name{
+	position: relative;
+	color:rgb(71,176,199);
+	font-size: 14px;
+}
+.info-time{
+	position: relative;
+	top: -4px;
+	font-size: 10px;
+	color:rgb(149,149,149);
+}
+.comment{
+	position: relative;
+	float: left;
+	width: auto;
+	height:auto;
+	margin-top: 16px;
+}
+.comment .text,
+.comment .address{
+	position: relative;
+	float: left;
+	width: auto;
+	height:auto;
+	margin-left: 6px;
+	font-size: 12px;
+	color:rgb(37,37,37);
+}
+.comment .text{
+	font-size:14px;
+}
+.comment .address{
+	top:-2px;
+	color:rgb(149,149,149);
+}
+img{
+	position: relative;
+	float:right;
+	margin-right: 16px;
+	margin-top: 6px;
+}
+.comment-text{
+	display: block;
+	width:auto;
+	height:auto;
+	padding: 10px 20px 0 70px;
+}
+.comment-text i{
+	position: absolute;
+	top:65px;
+	left:64px;
+	border-top: 5px solid transparent;
+    border-right: 6px solid rgb(236,236,236);
+    border-bottom: 3px solid transparent;
+}
+.content-text{
+	display: inline-block;
+	width:100%;
+	line-height: 20px;
+	border-radius: 2px;
+	word-break: break-all;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding: 3px 3px 3px 3px;
+	font-size: 12px;
+	color:rgb(85,85,85);
+	background:rgb(237,237,237);
+}

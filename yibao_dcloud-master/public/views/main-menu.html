@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Main-Menu</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/page_info.css">
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<style type="text/css">
+		#page_info{
+			background : inherit;
+		}
+		body,.mui-content{
+			background-color: transparent;
+			color:#fff;
+		}
+		.menu-background{
+			position: fixed;
+			top:0px;
+			bottom:0px;
+			height:auto;
+			width:100%;
+			background:rgb(48, 150, 173);
+			z-index: -1;
+		}
+		.mui-table-view-inverted{
+			background: transparent;
+		}
+		.mui-active{
+			background: rgba(236,236,236,0.4);
+		}
+		ul{
+			outline: none;
+		}
+		.title{
+			margin: 35px 15px 10px;
+		}
+		.title+.content{
+			margin: 10px 15px 35px;
+			color: #bbb;
+			text-indent: 1em;
+			font-size: 14px;
+			line-height: 24px;
+		}
+		.mui-table-view{
+			margin-bottom: 35px;
+		}
+		#page_info .icon{
+			top : 0;
+		}
+		.profile img{
+			width: 55px;
+			height: 55px;
+			border: 2px solid rgba(255, 255, 255, 0.12);
+			border-radius: 40px;
+			padding: 1px;
+		}
+		#page_info .content{
+			height:125px;
+		}
+		.profile{
+			padding: 20px 17px;
+			float:left;
+
+		}
+		.profile-info{
+			display: block;
+			padding: 33px 0 20px 92px;
+			height: 100%;
+		}
+		.profile-info .nickname{
+			color : white;
+			font-size : 20px;
+			font-weight: 800;
+		}
+		.user-profile .tag {
+			color : white;
+			background:transparent;
+			padding: 0;
+			margin-left:0;
+			font-size: 13px;
+			border-radius: 3px;
+		}
+		.table-view{
+			position:absolute;
+			width: 100%;
+			bottom: 92px;
+		}
+		.item-view{
+			position: relative;
+			width:100%;
+			margin:5px 0;
+			line-height: 50px;
+			font-size: 17px;
+			color: white;
+		}
+		.item-view:active, .item-view.active{
+			background: rgba(208,208,208,0.2);
+			border-left: 3px solid rgba(255, 255, 255, 0.73);
+		}
+		.item-view span{
+			font-weight: 400;
+		}
+		.item-view a{
+			position: relative;
+			width:300px;
+			height: 300px;
+			padding-left:25px;
+		}
+		.rect{
+			float:right;
+			right:20px;
+			bottom:0px;
+			height:50px;
+			text-align: center;
+			width:60px;
+			line-height: 60px; 
+			font-size: 18px;
+			color:white;
+		}
+		.rect i{
+			font-size:18px;
+		}
+		.rect:active{
+			background: rgba(208,208,208,0.2);
+		}
+		span{
+			color:rgba(255, 255, 255, 0.8);
+		}
+		.address,
+		.city{
+			font-size: small;
+		}
+
+		span.icon-box{
+			display: inline-block;
+			padding: 5px;
+			width: 39px;
+			height: 39px;
+			border-radius: 30px;
+			border: 0px solid rgba(255, 255, 255, 0.73); 
+			color: rgba(255, 255, 255, 0.8);
+			line-height: 30px;
+			margin-right:8px;
+			font-size: 18px;
+			text-align: center;
+		}
+
+		span.icon-box i{
+			font-size:21px;
+		}
+
+		.setting{
+			position:absolute;
+			bottom : 0;
+			height: 60px;
+			width:100%;
+			border-top:1px solid rgba(255,255,255,0.7);
+		}
+		
+		@font-face {font-family: "iconfont";
+			src: url('../fonts/iconfont.eot'); /* IE9*/
+			src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			url('../fonts/iconfont.woff') format('woff'), /* chrome, firefox */
+			url('../fonts/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+			url('../fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+		}
+
+		.iconfont {
+			font-family:"iconfont" !important;
+			font-size:16px;
+			font-style:normal;
+			-webkit-font-smoothing: antialiased;
+			-webkit-text-stroke-width: 0.2px;
+			-moz-osx-font-smoothing: grayscale;
+		}
+		.icon-personalcenter:before { content: "\e600"; }
+		.icon-plus:before { content: "\e601"; }
+		.icon-iconfontuser1:before { content: "\e602"; }
+		.icon-fuwumendian:before { content: "\e603"; }
+		.icon-setup:before { content: "\e604"; }
+		.icon-like:before { content: "\e605"; }
+		.icon-552cc230b663d:before { content: "\e606"; }
+		.icon-fans:before { content: "\e607"; }
+		.icon-552cc14536532:before { content: "\e608"; }
+		.icon-552cd52eeea1e:before { content: "\e609"; }
+		.icon-message:before { content: "\e60a"; }
+		.icon-work:before { content: "\e60b"; }
+		.icon-552cdf5db82ae:before { content: "\e60c"; }
+
+
+		</style>
+	</head>
+
+	<body>
+		<div class="menu-background"></div>
+		<div class="mui-content" id="page_info">
+			<div class="content user-profile" id="user-profile">
+				<div class="profile">
+					<img alt="profile" src="../img/logo.png"/>
+				</div>
+				<div class="profile-info">
+					<p>
+						<span class="nickname">我的昵称</span>
+						<br />
+						<span class="tag">
+							<span class="role">老师</span>
+						</span>
+
+					</p>
+					<p  style="color:white;"><i class="iconfont icon-fuwumendian"></i> &nbsp;<span class="address"></span> <span class="city">市区</span></p>
+				</div>
+			</div>
+			<div class="table-view">
+				<div class="item-view">
+					<a class="mui-navigate-right" open-type="common" href="page_publish.html">
+						<span class="icon-box">
+							<i class="iconfont icon-work"></i>
+						</span>
+						&nbsp;&nbsp;
+						<span>我的画作</span>
+					</a>
+				</div>
+				<div class="item-view">
+					<a open-type="common" href="page_getComment.html">
+						<span class="icon-box">
+							<i class="iconfont icon-message"></i>
+						</span>
+						</i>
+						&nbsp;&nbsp;
+						<span>点评消息</span>
+					</a>
+				</div>
+				<div class="item-view">
+					<a open-type="common"  href="page_collection.html">
+						<span class="icon-box">
+							<i class="fa fa-star"></i>
+						</span>
+						</i>
+						&nbsp;&nbsp;
+						<span>我的收藏</span>	
+					</a>
+				</div>
+				<div class="item-view">
+					<a open-type="common" href="page_follow.html">
+						<span class="icon-box">
+							<i class="iconfont icon-like"></i>
+						</span>
+						&nbsp;&nbsp;
+						<span>我的关注</span>
+						
+					</a>
+				</div>
+				<div class="item-view">
+					<a open-type="common" href="page_fans.html">
+						<span class="icon-box">
+							<i class="iconfont icon-fans"></i>
+						</span>
+						&nbsp;&nbsp;
+						<span>我的粉丝</span>
+						
+					</a>
+				</div>
+			</div>
+			<div class="setting">
+				<a class="rect">
+					<i class="iconfont icon-setup"  open-type="common" href="page_editInfo.html"></i>
+				</a>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../build/js/service.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		var aniShow = "slide-in-right";
+		//关于backbutton和menubutton两个按键的说明，在iOS平台不存在，故需隐藏
+		if(!mui.os.android){
+			var span = document.getElementById("android-only")
+				if(span){
+					span.style.display = "none";
+				}
+			aniShow = "pop-in";
+		}
+		var subWebview=null,template=null,index=null;
+		mui.plusReady(function () {
+			//获得主页面webview引用；
+			index = plus.webview.currentWebview().opener();
+		});
+
+
+		mui('.mui-content').on('tap', '.item-view,.rect', function() {
+
+			close(); 
+			
+			var node = this.children[0];
+			var type = node.getAttribute("open-type");
+			var href = node.getAttribute("href");
+			var id = href;
+			if(type=="common"||mui.os.ios){
+				var webview_style = {
+					popGesture: "close"
+				};
+				mui.openWindow({
+					id: id,
+					url: href,
+					styles: webview_style,
+					show: {
+						aniShow: aniShow
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+			}else{
+				var href = node.href;
+				var title = node.innerText;
+				template = plus.webview.getWebviewById("default-main");
+				//获得共用子webview
+				subWebview = template.children()[0];
+				
+				//通知模板修改标题，并显示隐藏右上角图标；
+				mui.fire(template,'updateHeader',{title:title,showMenu:false});
+				if (subWebview.getURL() != href) {
+					subWebview.loadURL(href);
+				} else {
+					subWebview.show();
+				}
+				template.show('slide-in-right', 150);
+			}
+		});
+		
+		/**
+		 * 关闭侧滑菜单
+		 */
+		function close() {
+			console.log('close .. opener-id : '+ mui.currentWebview.opener().id);
+			mui.fire(mui.currentWebview.opener(),"menu:close");
+		}
+		
+		//点击“关闭侧滑菜单”按钮处理逻辑
+		/* document.getElementById("close-btn").addEventListener("tap",close);
+		   //在android4.4.2中的swipe事件，需要preventDefault一下，否则触发不正常 */
+		window.addEventListener('dragstart',function(e){
+			mui.gestures.touch.lockDirection = true; //锁定方向
+			mui.gestures.touch.startDirection = e.detail.direction;
+		});
+		window.addEventListener('dragleft', function(e) {
+			if(!mui.isScrolling){
+				e.detail.gesture.preventDefault();	
+			}
+		});
+		//监听左滑事件，若菜单已展开，左滑要关闭菜单；
+		window.addEventListener("swipeleft",function (e) {
+			if(Math.abs(e.detail.angle)>170){
+				close();						
+			}
+		});
+		
+		document.getElementById('user-profile').addEventListener('tap', function(e) {
+			var webview_style = {
+				popGesture: "close"
+			};
+			var user = Service.getLocalUser();
+			console.log(user.role);
+			var user = Service.getLocalUser();
+			if(user.role == "STUDENT"){
+				var id =  "page_home_student.html";
+				var url = "page_home_student.html#/id/"+user._id;
+			}else if(user.role == "TEACHER"){
+				var id =  "page_home_page_teacher.html";
+				var url =  "page_home_page_teacher.html#/id/"+user._id;
+			}
+			else{
+				plus.nativeUI.toast("您的身份信息有误！");
+				return;
+			}
+			mui.openWindow({
+				id: id,
+				url: url,
+				styles: webview_style,
+				show: {
+					aniShow: "pop-in",
+					duration : 200
+				},
+				waiting: {
+					autoShow: true
+				}
+			});
+		});
+		update = function() {
+			var user = Service.getLocalUser();
+			mui('.nickname')[0].innerHTML = user.nickname;
+			mui('.city')[0].innerHTML = user.city;
+			mui('.profile img')[0].src = user.photo || "../img/logo.png";
+			mui('.role')[0].innerText = user.role == "TEACHER" ? "老师" : "学生";
+		}
+
+		update();
+		
+		</script>
+	</body>
+
+</html>

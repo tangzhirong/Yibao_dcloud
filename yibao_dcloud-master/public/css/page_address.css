@@ -1,0 +1,59 @@
+.contain{
+	z-index: 190;
+	position: relative;
+	height:100%;
+	width:100%;
+	font-family: "微软雅黑";
+	background:rgb(236,236,236);
+}
+.located-title,
+.all-title{
+	position: relative;
+	display:block;
+	padding-top:10px;
+	margin-left: 20px;
+	margin-bottom: 3px;
+}
+.column{
+	position: relative;
+	background:white;
+	height:40px;
+	width:100%;
+	line-height:40px;
+}
+.fa-map-marker{
+	margin-left: 20px;
+	color:rgb(71,176,197);
+}
+.address,.city{
+	margin-left: 10px;
+}
+.framework{
+	width:100%;
+	position: relative;
+}
+.column-wrap{
+	position: relative;
+	float:left;
+	height:auto;
+	width: 100%;
+}
+.column-wrap:active{
+	background:rgb(236,236,236);
+}
+.framework .column{
+	width:96%;
+	float:right;
+	background:transparent;
+	border-bottom: 1px solid rgb(236,236,236);
+}
+.text{
+	margin-left:4px;
+}
+.fa-angle-right{
+	position: relative;
+	float:right;
+	margin-right:20px;
+	font-size: 30px;
+	color:rgb(208,208,208);
+}

@@ -1,0 +1,116 @@
+#page_basic_info
+{
+	background-color:rgb(236,236,236);
+	width:100%;
+	height:auto;
+	position:absolute;
+	top: 38px;
+	bottom: 0;
+	z-index:2;
+	padding:0;
+	margin:0;
+	font-family: Microsoft YaHei;
+	color:rgb(161,161,161);
+}
+.sex
+{
+	position: relative;
+	margin-top: 28.3px;
+}
+.man,.woman
+{
+	position: relative;
+	font-size: 20px;
+}
+.man
+{
+	float: left;
+	left:34.4%;
+}
+.woman
+{
+	float: right;
+	right:34.4%;
+}
+img{
+	border:4px solid rgb(71,176,197);
+}
+.clear
+{
+	clear: both;
+}
+.form
+{
+	width:90.7%;
+	height: 81px;
+	border-radius: 3px;
+	margin:33px 4.6% auto 4.6%;
+	background:white;
+}
+.input-name
+{
+	width:100%;
+	height: 40px;
+	outline:none;
+	border:none;
+	font-size: 15px;
+	text-indent:16px;
+	font-weight:600;
+	border-bottom: 1px solid rgb(236,236,236);
+}
+
+.column
+{
+	position: relative;
+	float:left;
+	width:100%;
+	height: 40px;
+}
+.column span
+{
+	position: relative;
+	float: left;
+	width:auto;
+	height: 40px;
+	font-weight:500;
+	line-height: 40px;
+	left:16px;
+	font-size: 15px;
+}
+
+.column i
+{
+	position:relative;
+	float:right;
+	line-height: 37px;
+	right:16px;
+	font-size:26px;
+}
+.icon
+{
+	background-image:url(../img/icon.png);
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+.icon-camera
+{
+	display: block;
+	width:108px;
+    height:108px;
+    background-size: 454px 827px;
+    background-position:-328px -160px;
+    margin:auto;
+    margin-top:30px;
+}
+.maleselected
+{
+	color:rgb(71,176,199);
+}
+.femaleselected
+{
+	color:rgb(255,177,57);
+}
+.noselected
+{
+	color:rgb(161,161,161);
+}

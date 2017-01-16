@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feed List</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/app_index.css" />
+		<link rel="stylesheet" type="text/css" href="../css/Feed.css" />
+		<link rel="stylesheet" type="text/css" href="../css/page_feeds.css" />
+		<style>
+		html,body.mui-ios{
+			height: 100%;
+		} 
+		.mui-table-view{
+			background:rgb(236,236,236);
+		}
+		.loading-tips, .nomore-tips{
+			text-align : center;
+			font-weight : 800;
+			color : rgb(71,169,199);
+		}
+		* {
+			-webkit-box-sizing: initial;
+			box-sizing: initial;
+			-webkit-user-select: none;
+			outline: 0;
+		}
+		</style>
+	</head>
+	<body>
+		<!--下拉刷新容器-->
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div id="page_feeds" class="mui-table-view mui-table-view-chevron"></div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/imgTemplate.js"></script>
+	<script type="text/javascript" src="../build/js/Feed.js"></script>
+	<script>
+
+
+	window.baseUrl = localStorage.getItem('baseUrl') || "http://pang.tunnel.yibaoedu.com:8080";
+
+
+	mui.plusReady(function() {
+		plusReady(commonFunction);
+	});
+	
+	if(/mui-ios/.test(document.body.className))
+		document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />';
+
+	//如果非plus环境则使用webReady函数
+	if(navigator.userAgent.indexOf('Html5Plus') < 0){
+		setTimeout(function() {
+			webReady(commonFunction);
+		},0);
+	}
+	
+	//1. Plus 环境中专用代码
+	plusReady = function(cb){
+		mui.init({
+			deceleration: 0.03,
+			pullRefresh : {
+				container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+				down : {
+					contentdown : "下拉可以刷新",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+					contentover : "释放立即刷新",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+					contentrefresh : "正在刷新...",//可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+					callback : pullfreshFunction
+				},
+				up : {
+					contentdown : "<div class='loading-tips'>上滑可加载更多</div>",
+					contentrefresh : "<div class='loading-tips'>正在加载...</div>", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+					contentnomore: "<div class='nomore-tips'>没有更多数据</div>",//可选，请求完毕若没有更多数据时显示的提醒内容；
+					callback :pullUpFresh
+				}
+			}
+		});
+		
+		var parentWebview = plus.webview.getWebviewById('main');
+		var pageNews = plus.webview.getWebviewById('page_news.html');
+		document.addEventListener('swipeleft', function(e) {
+			if(e.detail.deltaX < -80)
+				parentWebview.evalJS('switchTab("page_news.html", "slide-in-right")');
+		});
+		document.addEventListener('swiperight', function(e) {
+			if(e.detail.deltaX > 80)
+				parentWebview.evalJS('switchTab("page_discovery_teacher.html", "slide-in-left")');
+		});
+
+		
+		/* 	刚进入时先初始化下一个界面的 Next webview */
+		feedDetail = plus.webview.create('page_feeds_detail.html','feedDetail',{top : 0, bottom:0});
+		cb();
+	}
+
+	// 2. 非plus环境中使用的代码
+	webReady = function(cb){
+		mui.init({
+			deceleration: 0.03,
+			pullRefresh : {
+				container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+				down : {
+					contentdown : "下拉可以刷新",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+					contentover : "释放立即刷新",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+					contentrefresh : "正在刷新...",//可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+					callback : pullfreshFunction
+				},
+				up : {
+					contentdown : "<div class='loading-tips'>上滑可加载更多</div>",
+					contentrefresh : "<div class='loading-tips'>正在加载...</div>", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+					contentnomore: "<div class='nomore-tips'>没有更多数据</div>",//可选，请求完毕若没有更多数据时显示的提醒内容；
+					callback :pullUpFresh
+				}
+			}
+		});
+		cb();
+	}
+	function commonFunction(){
+		listObj = ReactDOM.render(
+  			React.createElement(FeedList,{}),
+  			document.getElementById('page_feeds')
+  		);
+		updateList();
+	}
+	/* Locally update the list view */
+	function localUpdateList() {
+ 		var feed = plus.storage.getItem("detailFeed");
+		if(feed)
+			feed = JSON.parse(feed);
+		
+		if(!listObj) return;
+		listObj.state.feedList.map(function(item, i) {
+			if(item._id == feed._id){
+				item = feed;
+				listObj.state.feedList[i] = feed;
+			}
+		});
+		listObj.setState({feedList : listObj.state.feedList});	
+	}
+	function updateList(cb){
+		cb = cb || function(){};
+		var wait;
+		if(window.plus)
+			wait = plus.nativeUI.showWaiting( "加载中" );
+		
+		mui.ajax({
+			url : baseUrl + "/getFeeds", 
+			dataType : "json",
+			data : {
+				start_time : "2001/1/1 10:00:00"
+			},
+			type : "post",
+			success : function(data){
+				if(data.feedlist.length == 0) 
+					return plus.nativeUI.toast('No feed');
+				listObj.setState({feedList : data.feedlist});
+				if(window.plus){
+					setTimeout(function(){plus.navigator.closeSplashscreen();}, 40);
+					plus.nativeUI.closeWaiting();
+				}
+				cb();
+			}.bind(this),
+			error : function(err){
+
+				if(window.plus){
+					plus.nativeUI.closeWaiting();
+					plus.nativeUI.toast('网络发生错误');
+					setTimeout(function(){plus.navigator.closeSplashscreen();}, 40);
+				}
+				cb("network error");
+			}
+		});
+	}
+	function pullfreshFunction() {
+		//业务逻辑代码，比如通过ajax从服务器获取新数据；
+		updateList(function(err){
+			//注意，加载完新数据后，必须执行如下代码，注意：若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+			mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+			mui('#refreshContainer').pullRefresh().enablePullupToRefresh();
+		})
+	}
+	function pullUpFresh() {
+		var list = listObj.state.feedList;
+		if(list.length == 0)
+			return;
+		var last = list[list.length-1];
+		var that = this;
+		mui.ajax({
+			url : baseUrl + "/getFeeds", 
+			dataType : "json",
+			data : {
+				end : last.createTime
+			},
+			type : "post",
+			success : function(data){
+				if(data.feedlist.length == 0)
+					that.endPullupToRefresh(true);
+				else{
+					var newlist = list.concat(data.feedlist);
+					listObj.setState({feedList : newlist});
+					that.endPullupToRefresh(false);
+				}			
+			}.bind(this),
+			error : function(err){
+				plus.nativeUI.toast('网络发生错误');
+			}
+		});
+	}
+
+	mui('#page_feeds').on('tap', '.card', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		if(mui.isScrolling)
+			return;
+		
+		var feedid = this.id;
+		var webview_style = {
+		};
+		var aniShow = "pop-in";
+
+		plus.nativeUI.showWaiting('加载中..');
+		var page = plus.webview.getWebviewById('feedDetail');
+		page.show();
+		page.evalJS("update('"+ feedid  +"')");
+	});
+
+	mui('#page_feeds').on('tap', '.profile', function(e) {
+		e.stopPropagation();
+		if(mui.isScrolling)
+			return;
+		var role = this.getAttribute('data-role'); 
+		var userid = this.getAttribute('data-userid');
+		var webview_style = {
+			popGesture: "close"
+		};
+		var id, url;
+		console.log('role  : '+role + "  id : "+userid);
+		if(role == "STUDENT"){
+			id =  "page_home_student.html";
+			url = "page_home_student.html#/id/"+userid;
+		}else if(role == "TEACHER"){
+			id =  "page_home_page_teacher.html";
+			url =  "page_home_page_teacher.html#/id/"+userid;
+		}else{
+			plus.nativeUI.toast("您的身份信息有误！");
+			return;
+		}
+		mui.openWindow({
+			id: id,
+			url: url,
+			styles: webview_style,
+			show: {
+				aniShow: "pop-in",
+				duration : 200
+			},
+			waiting: {
+				autoShow: true
+			}
+		});
+	});
+	</script>
+</html>

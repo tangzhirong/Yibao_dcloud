@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Discovery</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/app_index.css">
+		<style>
+		*{
+			-webkit-user-select: none;
+     			-webkit-touch-callout: none;
+     			-webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+		}
+		html,body
+		{
+			padding: 0px;
+			margin: 0px;
+		}
+		.tab
+		{
+			height:30px;
+			background:white;
+			border-bottom: 1px solid rgb(223,223,233);
+		}
+		.tab .active
+		{
+			border-bottom: 2px solid rgb(71,176,199);
+			color:rgb(71,176,199);
+		}
+		.tab>div
+		{
+			width : 32.4%;
+			display:inline-block;
+			color:rgb(172,172,172);
+			border-bottom: 0px solid rgb(71,176,199);
+		}
+		#tabTeacher,#tabStudio,#tabMaster,#tabSchool
+		{
+			
+			height:28px;
+			line-height:28px;
+			font-size:13.333px;
+			text-align:center;
+		}
+		</style>
+	</head>
+
+	<body class="page">
+  		<div class="tab">
+			<div class="item" id="tabTeacher">老师</div>
+			<!-- <div class="item" id="tabStudio">画室</div> -->
+			<div class="item" id="tabMaster">画霸</div>
+			<div class="item" id="tabSchool">高校</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script> 
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<script>
+	//估算大致的加载时间,去除splash
+	document.addEventListener('plusready',function(){
+		plusReady(commonFunction);
+	});
+	var discoveryTeacher,discoveryStudio,discoveryMaster,discoverySchool;
+	function plusReady(cb){
+
+		mui.init({
+			subpages : [
+				{
+					url : "page_discovery_teacher.html",
+					id : "discoveryTeacher",
+					styles : {
+						top:"29px",bottom:"0px"
+					},show:{
+						autoShow :false
+					}
+				},
+				/* {
+				   url : "page_discovery_studio.html",
+				   id : "discoveryStudio",
+				   styles : {
+				   top:"72px",bottom:"0px"
+				   },show:{
+				   autoShow :false
+				   }
+				   }, */
+				{
+					url : "page_discovery_master.html",
+					id : "discoveryMaster",
+					styles : {
+						top:"29px",bottom:"0px"
+					},show:{
+						autoShow :false
+					}
+				},
+				{
+					url : "page_discovery_school.html",
+					id : "discoverySchool",
+					styles : {
+						top:"29px",bottom:"0px"
+					},show:{
+						autoShow :false
+					}
+				}
+
+
+
+			]
+			
+		});
+
+		mui.back = function() {
+			if(confirm('您确定退出艺宝吗?')){
+  				plus.runtime.quit();
+  			}
+		};
+		setTimeout(function() {
+			cb();
+		},400);
+
+	}
+	var currentTab = '';
+	var previousTab = currentTab;
+	
+	function switchTab(tabid){
+		var discoveryTeacher = plus.webview.getWebviewById('discoveryTeacher');
+		/* 		var discoveryStudio = plus.webview.getWebviewById('discoveryStudio'); */
+		var discoveryMaster = plus.webview.getWebviewById('discoveryMaster');
+		var discoverySchool = plus.webview.getWebviewById('discoverySchool');
+		
+		previousTab = currentTab;
+		currentTab = tabid || "tabTeacher";
+		if(previousTab){
+			var prevDom = document.getElementById(previousTab);
+			prevDom.className = prevDom.className.replace('active','');
+		}
+		document.getElementById(currentTab).className += ' active';
+		if(currentTab == previousTab) return;
+		//切换webview
+
+		console.log('[page_discovery] 切换tab');
+		if(currentTab == 'tabTeacher'){
+		   	setTimeout(function(){
+		   		discoveryTeacher.show('pop-in',200,function() {
+					/* 		   			discoveryStudio.hide(); */
+		   			discoveryMaster.hide();
+		   			discoverySchool.hide();
+		   		});
+		   	},80);   			
+		}else if(currentTab == 'tabMaster'){
+		   	setTimeout(function(){
+		   		discoveryMaster.show('pop-in',200,function() {
+		   			discoveryTeacher.hide();
+					/* 		   			discoveryStudio.hide(); */
+		   			discoverySchool.hide();
+		   		});
+		   	},80); 			 
+		}else {
+		   	setTimeout(function(){
+		   		discoverySchool.show('pop-in',200,function() {
+		   			discoveryTeacher.hide();
+					/* 		   			discoveryStudio.hide(); */
+		   			discoveryMaster.hide();
+		   		});
+		   	},80); 			 
+		}
+	}
+
+	function commonFunction() {
+		switchTab(currentTab); 
+	}
+
+	mui('.tab').on('tap', '.item',function(e){
+		switchTab(this.id);
+	});
+	
+	</script>
+</html>

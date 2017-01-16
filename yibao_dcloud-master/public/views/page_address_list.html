@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_address.css">
+		<style>
+		body{
+			margin:0;
+			padding:0;
+		}
+		.fa-spinner{
+			margin-left:24px;
+			color:rgb(208,208,208);
+		}
+		</style>
+	</head>
+
+	<body>
+  		<div id="page_address"></div>
+	</body>
+	<script src="../js/mui.js"></script> 
+	<script src="../bower_components/react/react.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/Address.js"></script>
+	<script type="text/javascript" src="../build/js/service.js"></script>
+	<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ecc765135a01a685fcb90d60d52b1529"></script>
+	<script>
+
+	var webviewCity;
+	document.addEventListener('plusready', plusReady);
+	function plusReady(){
+		webviewCity = plus.webview.create("page_city.html",'city_contain');
+	}
+	function setAddress(city){
+		var user = Service.getLocalUser();
+		user.city = city;
+		Service.saveToLocal(user);
+		Service.saveToRemote(user);
+		var basic_info = plus.webview.getWebviewById('basic_info');
+		var editInfo = plus.webview.getWebviewById('page_editInfo.html');
+		if(editInfo){
+			editInfo.evalJS("updateUser('"+city+"')");
+		}
+		else if(basic_info){
+			basic_info.evalJS("saveAddress('"+city+"')");
+		}
+		 var all_webview = plus.webview.all();
+		 for(var j = 0; j < all_webview.length; j++){
+		   if (all_webview[j].id == "city_contain" || all_webview[j].id == "city" || all_webview[j].id == "address_contain" || all_webview[j].id == "address")
+		   		all_webview[j].close();//我也不知道从哪产生如此多的界面，于是一起关掉了
+	   }
+	}
+	function HandleProvince(province){
+		plus.webview.getWebviewById('city').evalJS("setProvince('"+province+"')");
+	}
+	ReactDOM.render(
+  		React.createElement(Address,{HandleProvince:HandleProvince,HandleLoaction : setAddress}),
+  		document.getElementById('page_address')
+  	);
+	console.log(3);
+	</script>
+</html>

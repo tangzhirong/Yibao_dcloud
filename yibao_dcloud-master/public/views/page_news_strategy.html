@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>newsStrategy</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_news.css" />
+	</head>
+
+	<body id="page_news">
+	 	<div id="tab1">
+			<div id="page-news-content"></div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script> 
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Discovery组件的 js -->
+	<script type="text/javascript" src="../build/js/newsStrategy.js"></script>
+	<script>
+
+	var baseUrl = localStorage.getItem('baseUrl');
+	//估算大致的加载时间,去除splash
+	document.addEventListener('plusready',function(){
+		plusReady(commonFunction);
+	});
+	var viewArticleClickHandler,newsView,strategylistObj;
+	plusReady = function(cb){
+
+		mui.init({
+			gestureConfig:{
+				tap: true, //默认为true
+				swipe: true, //默认为true
+				drag: false, //默认为true
+				hold:false,//默认为false，不监听
+				release:false//默认为false，不监听
+			}
+		});
+
+		var parentWebview = plus.webview.getWebviewById('page_news.html');
+		var mainWebview = plus.webview.getWebviewById('main');
+		document.addEventListener('swipeleft', function(e) {
+			parentWebview.evalJS('switchTab("tab_zixun", "slide-in-right")');
+		});
+		document.addEventListener('swiperight', function(e) {
+			mainWebview.evalJS('switchTab("page_feeds.html")');
+		});
+		
+		/* 	刚进入时先初始化下一个界面的 Next webview */
+		newsView = plus.webview.create('page_news_view.html','newsView',{top : 0, height: "39px"});
+		cb();
+	}
+	function commonFunction(){
+		strategylistObj = ReactDOM.render(
+		  	React.createElement(List, {}),
+		  	document.getElementById('page-news-content')
+	  	);
+
+	}
+
+
+	mui('#page-news-content').on('tap','.card',function(e){
+		console.log('tap');
+		var newsid = this.id;
+		var title = this.getAttribute('title');
+		newsView.evalJS("updateContent('"+newsid+"', '"+title+"')");
+	});
+
+	
+	function update() {
+		mui.ajax({
+			type : "get",
+			url : baseUrl + '/postsByCategory/5643424a95804f136d5adec1',
+			dataType : "json",
+			success : function(data){
+				strategylistObj.setState({list : data.postlist});
+			}.bind(this)
+		});		
+	}
+
+	
+
+
+	</script>
+</html>

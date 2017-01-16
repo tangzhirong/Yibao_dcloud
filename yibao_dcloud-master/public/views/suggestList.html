@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/app_index.css">
+	</head>
+
+	<body class="page">
+		<header class="header mui-bar mui-bar-nav">
+			<span class="header-left" onClick="backPage()"><i class="fa fa-angle-left"></i></span>
+			<span class="header-center header-name">推荐关注</span>
+			<span class="header-right" style="color:rgb(71,176,199)" onClick="nextPage()">下一步</span>
+		</header>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../build/js/service.js"></script>
+	<script>
+	document.addEventListener('plusready',plusReady);
+	function plusReady(){
+		 mui.init({
+			 subpages:[{
+				 url:'page_follow_list.html',
+				 id:'follow',
+				 styles:{
+					 top:'39px',
+					 bottom:'0px'
+				 }
+			 }]
+		 });
+	}
+	function close(){
+		plus.nativeUI.showWaiting('正在为您载入界面');
+		plus.webview.create('../views/main.html','main', {bottom : "0px", height:"54px"});
+
+
+		Service.saveToRemote();
+		
+		/* setTimeout(function() {
+		   var ws = plus.webview.all();
+		   for(var i = 0; i < ws.length; i++) {
+		   console.log(ws[i].id);
+		   if(ws[i].id != 'HBuilder' && ws[i].id != 'main')
+		   ws[i].close();
+		   }
+		   }, 400); */
+		
+
+	}
+	function backPage(){
+		close();
+		plus.webview.currentWebview().close('slide-out-right',240);
+	}
+	function nextPage(){
+		close();
+		plus.webview.currentWebview().close('slide-out-left',240);
+	}
+	</script>
+</html>

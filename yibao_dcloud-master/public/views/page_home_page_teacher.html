@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Feeds</title>
+		<link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/page_homepage.css" />
+		<style>
+		body{padding:0;margin:0;}
+		</style>
+	</head>
+
+	<body>
+  		<div id="page_homepage"></div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../bower_components/react/react.min.js"></script>
+	<script src="../bower_components/react/react-dom.min.js"></script>
+	<!-- 引用 含有 Feed组件的 js -->
+	<script type="text/javascript" src="../build/js/PanelMe.js"></script>
+	<script type="text/javascript" src="../build/js/service.js"></script>
+	<script type="text/javascript" src="../build/js/HomepageTeacher.js"></script>
+	<script>
+	console.log(102);
+	var user={};
+	var works={};
+	var teacher;
+	document.addEventListener('plusready', function(){
+		plusReady();
+	});
+
+	
+	function plusReady(){
+		mui.back = function() {
+			Service.saveToRemote();
+			plus.webview.currentWebview().hide('pop-out');
+		};
+	}
+	var baseUrl = localStorage.getItem('baseUrl');
+	user = Service.getLocalUser();
+	var teacherid = location.hash.split('/')[2];
+	console.log(teacherid);
+	if(teacherid){
+		console.log(teacherid);
+		Service.getOtherUser(teacherid, function(err,teacher) {
+			console.log(JSON.stringify(teacher));
+			Service.getAllTags(function(err,tags) {
+				tags = tags;
+				for(var i = 0; i < tags.length; i++) {
+					var tag = tags[i];
+					if(teacher.tags.indexOf(tag._id) != -1){
+						tag.isSelected = true;
+					}else{
+						tag.isSelected = false;
+					}
+				}
+				
+				ReactDOM.render(
+					React.createElement(HomepageTeacher,{user : teacher, works : works, alltags :　tags}),
+					document.getElementById('page_homepage')
+				);
+				
+			})
+		});
+
+		window.addEventListener('MODIFY_USER', function(e) {
+			user = Service.getLocalUser();
+			ReactDOM.render(
+				React.createElement(HomepageTeacher,{user : user, works : works, alltags :　tags}),
+				document.getElementById('page_homepage')
+			);	
+		});
+	}else{
+		
+	}
+	var tags = [];
+	
+	mui('#page_homepage').on('tap', '.work', function(e) {
+		var feedid = this.id;
+		plus.nativeUI.showWaiting( "加载中" );
+		console.log('feedid :'+ feedid);
+		var feedDetail = plus.webview.getWebviewById('feedDetail');
+		feedDetail.evalJS("update('"+feedid+"')");
+		setTimeout(function(){
+			feedDetail.show('pop-in',200, function() {
+				plus.nativeUI.closeWaiting();
+			});
+		},200);
+	});
+	mui('#page_homepage').on('tap', '.followBtn', function(e) {
+		mui.ajax({
+			url : baseUrl + "/setFollow",
+			data :{
+				followed_id : this.state.followlist._id,
+				type : "user"
+			},
+			type: 'post',
+			success : function(data){
+				if(data.msg == "ok")
+					{
+						var newfollowlist = that.state.followlist;
+						newfollowlist.isFollow = true;
+						that.setState({followlist :newfollowlist});
+					}
+			}.bind(this)
+		});
+	});
+	</script>
+</html>
